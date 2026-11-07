@@ -121,6 +121,7 @@ a { color: inherit; text-decoration: none; }
    --sr keep clear of a phone's notch. Windows marked .only-desktop stay out of the page, and so do the .app windows: the
    menu opens those over the page (.pop). */
 html.reading, html.reading body { height: auto; overflow: visible; }
+html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even under a viewer), so the width doesn't jump */
 #os.plain { position: absolute; overflow: visible; padding: 22px var(--sr, 0px) 0 var(--sl, 0px); }
 #os.plain:not(.held) { height: auto !important; }
 #os.plain.held { position: fixed; overflow: hidden; }

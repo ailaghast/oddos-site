@@ -29,7 +29,7 @@
     const dpr = devicePixelRatio || 1;
     N = +(q.get('n') || multiple(size)); Z = N / dpr;
     for (const e of [os, bar]) e.style.transform = `scale(${Z})`;
-    AW = Math.floor(innerWidth / Z); AH = Math.floor(innerHeight / Z);
+    AW = Math.floor(document.documentElement.clientWidth / Z); AH = Math.floor(innerHeight / Z);   // the width beside the page's scrollbar, in reading mode on a computer
     os.style.width = bar.style.width = AW + 'px'; os.style.height = AH + 'px';
     const cs = getComputedStyle(safe), root = document.documentElement.style;
     root.setProperty('--sl', Math.ceil(parseFloat(cs.paddingLeft) / Z) + 'px'); root.setProperty('--sr', Math.ceil(parseFloat(cs.paddingRight) / Z) + 'px');
@@ -419,8 +419,9 @@
   function centreControls() { ctl.style.paddingLeft = '0px'; const used = [...ctl.children].reduce((a, c) => a + c.offsetWidth, 0) + (ctl.children.length - 1) * 2; ctl.style.paddingLeft = Math.max(0, Math.floor((ctl.clientWidth - used) / 2)) + 'px'; }
 
   // ---------- modes ----------
-  // too small for the desktop (phones either way up, short windows, portrait tablets): reading mode, always
-  function small() { return innerWidth < 700 || innerHeight < 520 || (innerWidth < 1000 && innerHeight > innerWidth); }
+  // too small for the desktop: reading mode, always. A touch screen: a phone either way up, or a tablet standing up. With
+  // a mouse, only a really small window: a tall, narrow browser window on a computer still gets the desktop
+  function small() { return innerWidth < 700 || innerHeight < 520 || (touch && innerWidth < 1000 && innerHeight > innerWidth); }
   // what's open on arrival: the game right of the icons, then the TV with the Welcome note under it at
   // the right edge, as many as fit without covering each other. The rest start minimised in the taskbar, one click away.
   // Most desktops fit all three; if the TV and the note don't fit beside the game, they wait in the taskbar.
@@ -448,6 +449,7 @@
       if (!read) unpop();
       $$('.win').forEach(w => { w.classList.remove('open'); w.dataset.tab = ''; }); syncTabs();
       os.classList.toggle('plain', read); document.documentElement.classList.toggle('reading', read);
+      const w0 = AW; scale(); if (AW !== w0) BT.rerenderAll();   // the page's scrollbar comes and goes with reading mode
       [...$$('.tb [data-bt]'), ...$$('[data-bt]', bar)].forEach(BT.render);   // title bars change colour; the bar was drawn while hidden
       if (read) readMode(!was);
       else { menu(false); os.classList.remove('held', 'slim', 'forced'); scrollTo(0, 0); paintWall(); firstLook(); }
