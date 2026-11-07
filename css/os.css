@@ -29,9 +29,8 @@ a { color: inherit; text-decoration: none; }
 /* desktop icons */
 .icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
 /* the game's full name takes two lines (so both game windows fit beside the icons on a 640-wide desktop): the first row is
-   12px taller for it. Phones show it on one line, across two columns (pocket mode, below) */
-#os:not(.pocket) .ico[data-win="ddb"] { height: 60px; }
-#os.pocket .ico br { display: none; }
+   12px taller for it */
+.ico[data-win="ddb"] { height: 60px; }
 .ico { width: 62px; height: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 2px; touch-action: manipulation; }
 .ico img { width: 32px; height: 32px; }
 .ico [data-bt] { padding: 1px 2px 0; }
@@ -48,7 +47,6 @@ a { color: inherit; text-decoration: none; }
 .tb .title { margin-right: auto; overflow: hidden; }
 .tb .tbtn { width: 9px; height: 9px; margin-top: 4px; padding: 1px; border: 1px solid currentColor; flex: none; }
 .tb .tbtn:hover { background-color: var(--night); border-color: var(--paper); }
-.tb .back { display: none; padding: 0 3px; margin-top: 4px; }
 .bd { padding: 6px 7px 7px; overflow: hidden auto; overscroll-behavior: contain; scrollbar-width: auto; }
 .bd::-webkit-scrollbar { width: 5px; height: 5px; }
 .bd::-webkit-scrollbar-track { background: var(--night2); }
@@ -113,63 +111,110 @@ a { color: inherit; text-decoration: none; }
 .tvctl .gap { width: 4px; }
 
 
-/* ---------- pocket mode (phones, portrait tablets) ---------- */
-.status { display: none; }
-#os.pocket .task, #os.pocket .menu { display: none !important; }
-#os.pocket .status { display: flex; position: absolute; left: 0; right: 0; top: 0; height: 13px; z-index: 30; align-items: center; gap: 3px; padding: 0 6px; background: var(--night); border-bottom: 1px solid var(--line2); }
-#os.pocket .status .clock { margin-left: auto; padding: 0; }
-#os.pocket .home { position: absolute; inset: 13px 0 0 0; overflow: auto; z-index: 1; padding: 8px 0 16px; }
-#os.pocket .icons { position: static; grid-auto-flow: row; grid-template-columns: repeat(auto-fill, 66px); grid-template-rows: none; grid-auto-columns: auto; justify-content: center; gap: 6px 2px; padding: 0 4px; }
-#os.pocket .ico { width: 66px; }
-#os.pocket .ico[data-win="ddb"] { grid-column: span 2; width: 134px; }
-#os.pocket .ico[data-win="welcome"] { display: none; }
-.card { display: none; }
-#os.pocket .card { display: block; margin: 0 auto 10px; width: min(260px, calc(100% - 16px)); padding: 5px 6px 6px; background: var(--night); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); }
-#os.pocket .card > * + * { margin-top: 4px; }
-#os.pocket .win { left: 0 !important; top: 13px !important; right: 0; bottom: 0; width: auto !important; max-height: none !important; border-width: 1px 0 0; box-shadow: none; }
-#os.pocket .tb { cursor: default; }
-#os.pocket .tb .back { display: block; }
-#os.pocket .tb .mini, #os.pocket .tb .x { display: none; }
-#os.pocket .bd { flex: 1; }
-#os.pocket .tvwin .bd { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+/* ---------- reading mode: phones (and anything too small for the desktop), and Reading mode in the Odd menu ----------
+   One page: a strip of the night sky, then every window, one after another. The document scrolls, not #os (os.js sets
+   html.reading), so a swipe anywhere moves the page and the browser's bars can tuck away. Window bodies clip instead of
+   scrolling: a body that can scroll, even with nothing to scroll, catches the swipe (that was the old reading mode's bug).
+   The bar (.rbar) lives outside #os, where it can stay put. Classes on #os: .slim (narrower than 300: windows go edge to
+   edge), .forced (the screen is too small for the desktop, so there's no going back to it), .held (a full-screen viewer
+   is open: #os is the screen's size again and the page waits behind it). --sl and --sr keep clear of a phone's notch. */
+html.reading, html.reading body { height: auto; overflow: visible; }
+#os.plain { position: absolute; overflow: visible; padding: 22px var(--sr, 0px) 0 var(--sl, 0px); }
+#os.plain:not(.held) { height: auto !important; }
+#os.plain.held { position: fixed; overflow: hidden; }
+#os.plain .icons, #os.plain .task, #os.plain .menu, #os.plain .wall, #os.plain .glass, #os.plain .corner, #os.plain #w-welcome, #os.plain .tb button { display: none !important; }
+.hero, .rfoot, .rbar, #os:not(.plain) .only-reading { display: none !important; }   /* .only-reading: windows the desktop doesn't have */
+#os.plain .hero { display: block !important; position: relative; height: 112px; margin: 0 calc(0px - var(--sr, 0px)) 0 calc(0px - var(--sl, 0px)); }
+.herowall { position: absolute; left: 0; top: 0; }
+.herotext { position: relative; max-width: 480px; margin: 0 auto; padding: 14px 10px 0; color: var(--paper); }
+.herotext > * + * { margin-top: 6px; }
+.hero.egg .herotext { visibility: hidden; }   /* the stars make the emblem right there */
+#os.plain .wins { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: -12px; padding: 0 6px; }   /* the first window stands on the nearest hill */
+#os.plain .win { display: flex !important; position: static; width: min(480px, 100%) !important; max-height: none !important; height: auto !important; }
+#os.plain .bd { overflow: visible; overflow: clip; }
+#os.plain .tb { cursor: default; background: var(--slate); color: var(--paper); }
+#os.plain.slim .wins { padding: 0; }
+#os.plain.slim .win { border-width: 1px 0; box-shadow: none; }
 
-/* ---------- reading mode: every window, one after another ---------- */
-#os.plain { overflow-y: auto; }
-#os.plain .icons, #os.plain .task, #os.plain .menu, #os.plain .status, #os.plain .card, #os.plain .wall, #os.plain .glass, #os.plain .corner { display: none !important; }
-#os.plain .home { position: static; padding: 0; }
-.plainbar { display: none; }
-#os.plain .plainbar { display: flex; position: sticky; top: 0; z-index: 30; align-items: center; justify-content: space-between; padding: 4px 6px; background: var(--night); border-bottom: 1px solid var(--line2); }
-#os.plain .wins { padding: 6px 6px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-#os.plain .win { display: flex !important; position: static; width: min(260px, 100%) !important; max-height: none !important; height: auto !important; }
-#os.plain .win#w-shots { width: min(480px, 100%) !important; }
-#os.plain .win#w-ddbinfo { width: min(476px, 100%) !important; }
-#os:not(.plain) #w-shots { display: none !important; }
-.shotlist img { width: 100%; height: auto; image-rendering: auto; }
-#os.plain .tb { cursor: default; }
-#os.plain .tb button, #os.plain #w-welcome { display: none !important; }
+/* fingers: bigger buttons, fields, rows and TV / player keys (odd sizes still centre their 5x7 and 5x5 symbols) */
+#os.plain .pbtn { padding: 6px 8px 5px; }
+#os.plain .pbtn.o { padding: 5px 7px 4px; }
+#os.plain .bd .row { gap: 6px; }
+#os.plain.slim .bd > .row:not(.signup, .stripnav) > .pbtn { flex: 1 0 auto; justify-content: center; }
+#os.plain .field { height: 21px; }
+#os.plain .files a { padding: 4px 3px 4px 2px; }
+#os.plain .tvctl button, #os.plain .amp-ctl button { width: 15px; height: 15px; }
+#os.plain .amp-list button { padding: 4px; }
+#os.plain .tvwin .bd { display: flex; flex-direction: column; align-items: center; }
+#os.plain .amp > *, #os.plain .aboutscene { margin-left: auto; margin-right: auto; }
+#os.plain .amp > * { max-width: 260px; }
+
+/* a game: its window swaps the small capsule (.cap-small) for the library capsule (.cap-tall) on phones, and its About
+   window leaves out the header capsule (.cap-wide) there. The screenshots follow in the page, so the Screenshots
+   button goes; a long description folds after .fold until Read more */
+#os .cap-tall, #os.slim .cap-small, #os.slim .gameinfo .cap-wide, #os.plain .win [data-act="shots"] { display: none; }
+#os.slim .cap-tall { display: block; margin: 0 auto; }
+.readmore { display: none; }
+#os.plain .win:not(.unfolded) .fold ~ * { display: none; }
+#os.plain .win:not(.unfolded) .fold ~ .readmore { display: flex; }
+
+/* screenshots: a strip that snaps one shot at a time (its height is set in os.js, a whole number of pixels) */
+.strip { display: flex; overflow: auto hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; background: var(--ink); }
+.strip::-webkit-scrollbar { display: none; }
+.strip .shot { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
+.strip img { width: 100%; height: 100%; object-fit: contain; image-rendering: auto; }
+.stripnav { justify-content: space-between; align-items: center; flex-wrap: nowrap; }
+
+/* OddTube's videos as a list */
+.vidlist > * + * { margin-top: 0; }
+.vid { display: flex; gap: 6px; width: 100%; padding: 4px 2px; color: var(--paper); border-bottom: 1px solid var(--line); }
+.vid:last-child { border-bottom: 0; }
+.vid:hover, .vid:focus-visible { background: var(--slate-d); }
+.vid .tthumb { border-color: var(--line2); }
+
+#os.plain .rfoot { display: flex !important; flex-direction: column; align-items: center; gap: 8px; padding: 14px 12px 28px; }
+.rfoot p { width: min(260px, 100%); }
+#os:not(.forced) .rfoot .onphone { display: none; }
+
+/* the bar: fixed at the top, scaled like #os. The menu drops down from it (full width on phones) */
+.rbar { color: var(--paper); }
+#os.plain ~ .rbar { display: block !important; position: fixed; left: 0; top: 0; z-index: 10; transform-origin: 0 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+#os.held ~ .rbar, #os.forced ~ .rbar .rdesk { display: none !important; }
+.rtop { display: flex; align-items: center; gap: 4px; height: 22px; padding: 0 calc(4px + var(--sr, 0px)) 0 calc(6px + var(--sl, 0px)); background: var(--night); border-bottom: 1px solid var(--line2); }
+.rhome { display: flex; align-items: center; gap: 4px; margin-right: auto; align-self: stretch; }
+.rtop .pbtn.o { padding: 4px 7px 3px; }
+.rmenubtn[aria-expanded="true"] { background: var(--paper); color: var(--night); }
+.rmenu { display: none; position: absolute; right: 0; top: 22px; width: 170px; padding: 2px 0; overflow: hidden auto; overscroll-behavior: contain; background: var(--night); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); }
+.rbar.open .rmenu { display: block; }
+#os.slim ~ .rbar .rmenu { left: 0; width: auto; border-width: 0 0 1px; box-shadow: none; }
+.rmenu button { display: flex; align-items: center; gap: 6px; width: 100%; padding: 3px calc(8px + var(--sr, 0px)) 3px calc(8px + var(--sl, 0px)); color: var(--paper); }
+.rmenu button:hover, .rmenu button:focus-visible { background: var(--paper); color: var(--night); }
+.rmenu button.here { background: var(--slate); }
+.rmenu img { width: 16px; height: 16px; }
+.rmenu hr { border: 0; border-top: 1px solid var(--line2); margin: 2px 0; }
+.rbar .toast { top: 26px; bottom: auto; }
 
 /* the pixel TV's two canvases stack: casing behind, screen in its window */
 .ptv canvas { position: absolute; left: 0; top: 0; }
 
 /* narrow screens crop wide pixel art instead of scaling it */
-#os.pocket .bd img.frame, #os.plain .bd img.frame { max-width: calc(100% - 2px); height: auto; object-fit: none; object-position: 30% 50%; }
-#os.pocket .bd img.frame[height="108"], #os.plain .bd img.frame[height="108"] { height: 108px; }
-#os.pocket .bd img.frame[height="120"], #os.plain .bd img.frame[height="120"] { height: 120px; }
+#os.plain .bd img.frame { max-width: calc(100% - 2px); height: auto; object-fit: none; object-position: 30% 50%; }
+#os.plain .bd img.frame[height="108"] { height: 108px; }
+#os.plain .bd img.frame[height="120"] { height: 120px; }
 
 /* full-screen screenshot viewer (sits above the scanlines; the photo is sized in os.js) */
-.lightbox { position: absolute; inset: 0; z-index: 950; background: var(--ink); display: none; overflow: hidden; }
+.lightbox { position: absolute; inset: 0; z-index: 950; background: var(--ink); display: none; overflow: hidden; touch-action: pan-y pinch-zoom; }   /* sideways swipes are ours (os.js), pinching still zooms */
 .lightbox.open { display: block; }
 .lbimg { position: absolute; left: 0; top: 0; }
 .lbbar { position: absolute; left: 4px; bottom: 4px; padding: 3px; background: var(--night); border: 1px solid var(--line2); align-items: center; }
 .oddgame { margin: 0 auto; }
-#os.pocket .status .emb { cursor: pointer; }
 
 /* devlog reader: one post at a time on the desktop, all of them in reading mode */
 .posts article { display: none; }
 .posts article.on, #os.plain .posts article { display: block; }
 .posts article > * + * { margin-top: 6px; }
 #os.plain .posts article + article { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line2); }
-#os.plain #w-devlog { display: none !important; }
+#os.plain:not(.noposts) #w-devlog, #os.plain.noposts #w-post { display: none !important; }   /* no posts yet: the empty list says so */
 
 
 /* Odd·Amp */
@@ -190,16 +235,14 @@ a { color: inherit; text-decoration: none; }
 
 .amp-list button > [data-bt]:not(.meta) { min-width: 0; overflow: hidden; }
 
-/* the game's long description: subheadings get extra room, pictures sit in the middle. The wide header capsule
-   swaps for the tall library capsule on phones, so neither is cropped. The animations (.anim) have see-through
+/* the game's long description: subheadings get extra room, pictures sit in the middle. Phones leave out the wide
+   header capsule (the game's window shows the tall library capsule there), so neither is cropped. The animations (.anim) have see-through
    backgrounds, so they go without a frame, as on the Steam page. They show at 2x (their width/height) where that
    fits, and at their native 1x (narrower than 392) on phones */
 .gameinfo { container-type: inline-size; }
 .gameinfo h3 { margin-top: 10px !important; }
 .gameinfo img.frame, .gameinfo img.anim { display: block; margin-left: auto; margin-right: auto; }
 @container (max-width: 391px) { .gameinfo img.anim { width: auto; height: auto; } }
-.gameinfo img.cap-tall, #os.pocket .gameinfo img.cap-wide { display: none; }
-#os.pocket .gameinfo img.cap-tall { display: block; }
 
 /* long posts: subheadings, lists, pictures, and the older/newer links */
 .posts h3 { margin-top: 10px !important; }
@@ -209,7 +252,7 @@ a { color: inherit; text-decoration: none; }
 .posts .list li + li { margin-top: 2px; }
 .postnav { margin-top: 10px !important; padding-top: 6px; border-top: 1px solid var(--line2); justify-content: space-between; }
 #os.plain .postnav { display: none; }
-#os.pocket #w-post .bd img.frame, #w-post img.frame { max-width: calc(100% - 2px); }
+#w-post img.frame { max-width: calc(100% - 2px); }
 .oddhead { justify-content: space-between; align-items: center; }
 .oddmute { width: 13px; height: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line2); background: var(--night); flex: none; }
 .oddmute:hover { border-color: var(--paper); }
@@ -281,12 +324,12 @@ a { color: inherit; text-decoration: none; }
 .theatre.narrow .tmain { max-width: none; width: 100%; }
 .theatre.narrow .tside { width: 100%; }
 .theatre.narrow .tsearch { display: none; }
+.theatre.narrow .tinfo { flex-wrap: wrap; }   /* the views go under the channel when they don't fit beside it */
 .maillink { display: inline-block; color: var(--paper); border-bottom: 1px solid var(--tomato); }
 .maillink:hover { color: var(--tomato); }
 .devlog-empty { color: var(--dim) !important; }
 /* the easter egg's note */
 .toast { position: absolute; bottom: 26px; z-index: 880; display: flex; align-items: center; gap: 4px; padding: 4px 6px; background: var(--night); color: var(--paper); border: 1px solid var(--tomato); box-shadow: 2px 2px 0 var(--ink); pointer-events: none; }
-#os.pocket .toast { bottom: 12px; }
 /* OddTube scrolls with a pixel scrollbar in its own light colours */
 .tube::-webkit-scrollbar { width: 5px; }
 .tube::-webkit-scrollbar-track { background: #E4E7EC; }

@@ -1,7 +1,8 @@
 // The OddOS wallpaper, drawn as real pixel art at the screen's art resolution (so it fits any device exactly):
 // a slate night in flat bands joined by checkerboard dithering, pixel stars, one tomato star tilted like the logo's
 // escaped pixel, and three layers of hills with pines. Seeded, so it looks the same on every visit.
-// Easter egg: click the tomato star and every star in the sky flies into the Odd Pixel Labs emblem for a few seconds.
+// Easter egg: click the tomato star and every star in the sky flies into the Odd Pixel Labs emblem for a few seconds
+// (the small emblem in a small sky, like reading mode's strip, which hasn't enough stars for the big one).
 (function () {
   function rng(seed) { return () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296; }
   const SKY = ['#0F1318', '#161B22', '#14212F', '#1C2E42', '#294460', '#36597E'];
@@ -66,8 +67,10 @@
   // ---------- the easter egg ----------
   function startEgg(onPeak) {
     if (egg) return;
-    // targets: the big emblem (white squares + the tilted tomato one), one star per cell, 4px apart, in the middle of the sky
-    const E = ODDOS_EMBLEM.large, gap = 4, ew = E[0].length * gap, eh = E.length * gap;
+    // targets: the emblem (white squares + the tilted tomato one), one star per cell, 4px apart, in the middle of the sky;
+    // the big one if there are stars enough for every cell
+    const count = rows => rows.join('').replace(/\./g, '').length, E = stars.length >= count(ODDOS_EMBLEM.large) ? ODDOS_EMBLEM.large : ODDOS_EMBLEM.small;
+    const gap = 4, ew = E[0].length * gap, eh = E.length * gap;
     const ox = Math.round((W - ew) / 2), oy = Math.max(4, Math.round(H * .36 - eh / 2)), cells = [];
     E.forEach((row, j) => [...row].forEach((c, i) => { if (c !== '.') cells.push({ x: ox + i * gap, y: oy + j * gap, odd: c === 'c' }); }));
     // each cell takes the nearest free star (the odd star itself heads for the tomato square)
@@ -96,8 +99,8 @@
     if (!egg.peaked && t > GO) { egg.peaked = true; egg.onPeak && egg.onPeak(); }
     if (t < END) requestAnimationFrame(eggFrame); else { egg = null; paint(); }
   }
-  // is an art-pixel point on the odd star? (a couple of pixels of slack around it)
-  const hitsOdd = (x, y) => odd && x >= odd.x - 2 && x <= odd.x + odd.w + 2 && y >= odd.y - 2 && y <= odd.y + odd.h + 2;
+  // is an art-pixel point on the odd star? (a couple of pixels of slack around it, or more for a fingertip)
+  const hitsOdd = (x, y, slack = 2) => odd && x >= odd.x - slack && x <= odd.x + odd.w + slack && y >= odd.y - slack && y <= odd.y + odd.h + slack;
 
   window.Wallpaper = { draw, hitsOdd, egg: startEgg, get busy() { return !!egg; } };
 })();

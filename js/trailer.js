@@ -2,7 +2,7 @@
 // description, comments, related videos). The player's fullscreen button switches to the theatre: the video on the
 // whole screen, at a whole multiple of its pixels when that fills the screen well (1:1 for a 1080p trailer on a 1080p
 // screen), otherwise scaled smoothly. The video itself is a normal file (mp4/webm) in trailer/.
-// Usage: Trailer.mount(el, { getScale: () => ({ Z, AW, AH }), openApp: name => {}, pocket: () => bool }) -> { open(), close() }
+// Usage: Trailer.mount(el, { getScale: () => ({ Z, AW, AH }), openApp: name => {}, phone: () => bool, onClose: () => {} }) -> { open(), close() }
 (function () {
   const SPR = {
     play: ['#....', '##...', '###..', '####.', '###..', '##...', '#....'], pause: ['##.##', '##.##', '##.##', '##.##', '##.##', '##.##', '##.##'],
@@ -32,7 +32,7 @@
     cv.setAttribute('aria-label', `Rated ${rating} out of 5`);
   }
 
-  function mount(el, { getScale, openApp = () => {}, pocket = () => false }) {
+  function mount(el, { getScale, openApp = () => {}, phone = () => false, onClose = () => {} }) {
     const v = el.querySelector('video'), bar = el.querySelector('.tbar'), seek = el.querySelector('.tseek'), sc = seek.getContext('2d');
     const playBtn = el.querySelector('.tplay'), volBtn = el.querySelector('.tvol'), fullBtn = el.querySelector('.tfull'), time = el.querySelector('.ttime');
     const endCard = el.querySelector('.tend'), player = el.querySelector('.tplayer'), screenBox = el.querySelector('.tscreen'), page = el.querySelector('.tube'), stage = el.querySelector('.tstage');
@@ -171,7 +171,7 @@
 
     function open({ autoplay = true, fullscreen = false, video } = {}) {
       if (video && video !== current.id) show(video, false);
-      el.classList.add('open'); el.classList.remove('ended'); endCard.hidden = true; const { AW } = getScale(); el.classList.toggle('narrow', pocket() || AW < 480 + 130 + 30);   // the sidebar goes under the video when the 480-wide player and it don't fit side by side
+      el.classList.add('open'); el.classList.remove('ended'); endCard.hidden = true; const { AW } = getScale(); el.classList.toggle('narrow', phone() || AW < 480 + 130 + 30);   // the sidebar goes under the video when the 480-wide player and it don't fit side by side
       el.style.top = (el.parentElement.scrollTop || 0) + 'px'; page.scrollTop = 0;
       v.muted = !!localStorage.getItem('oddos-trailer-muted');
       BT.scan(el); setMode(fullscreen ? 'full' : 'page'); if (fullscreen) browserFull(true);
@@ -179,7 +179,7 @@
       if (autoplay) v.play().catch(() => sync());
       playBtn.focus({ preventScroll: true });
     }
-    function close() { v.pause(); if (mode === 'full') setMode('page'); el.classList.remove('open'); cancelAnimationFrame(raf); browserFull(false); }
+    function close() { v.pause(); if (mode === 'full') setMode('page'); el.classList.remove('open'); cancelAnimationFrame(raf); browserFull(false); onClose(); }
     swap(el.querySelector('.tclose'), SPR.close, SLATE);
     return { open, close, fit, show, get video() { return v; }, get current() { return current.id; }, get mode() { return mode; } };
   }
