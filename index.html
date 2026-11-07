@@ -61,19 +61,6 @@
       </div>
     </section>
 
-    <!-- reading mode only: a game's screenshots in a strip to swipe through (js/os.js fills it from GAMES[data-game]); a tap
-         opens the full-screen viewer -->
-    <section class="win only-reading" id="w-shots" data-icon="die" data-title="Dice Dice Battles screenshots" data-at="0,0,480">
-      <div class="bd shotlist">
-        <div class="strip" data-game="ddb"></div>
-        <div class="row stripnav">
-          <button class="pbtn o" data-strip="-1" aria-label="Previous screenshot"><span data-bt="fit"><b>◂</b></span></button>
-          <span data-bt="fit" class="dim stripname">1/10</span>
-          <button class="pbtn o" data-strip="1" aria-label="Next screenshot"><span data-bt="fit"><b>▸</b></span></button>
-        </div>
-      </div>
-    </section>
-
     <!-- the long description (same copy as the Steam page). On top, the Steam header capsule (left out on phones, where the
          game's window already shows the library capsule); the animations are the Steam page's GIFs (native files from
          _tools/build-game-art.js), in the same places, shown at 2x where they fit. Reading mode folds it after .fold -->
@@ -97,6 +84,19 @@
         <p data-bt>Try a shared Daily Run, take a winning build into Endless to see how deep it can go, or unlock tougher runs with 10 Heresy difficulty levels.</p>
         <img class="anim" src="art/game/shopkeeper.gif" width="260" height="120" alt="The shopkeeper, a mouse with a backpack: Psst, friend! Wishlist me now.">
         <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
+      </div>
+    </section>
+
+    <!-- reading mode only: a game's screenshots in a strip to swipe through (js/os.js fills it from GAMES[data-game]); a tap
+         opens the full-screen viewer -->
+    <section class="win only-reading" id="w-shots" data-icon="die" data-title="Dice Dice Battles screenshots" data-at="0,0,480">
+      <div class="bd shotlist">
+        <div class="strip" data-game="ddb"></div>
+        <div class="row stripnav">
+          <button class="pbtn o" data-strip="-1" aria-label="Previous screenshot"><span data-bt="fit"><b>◂</b></span></button>
+          <span data-bt="fit" class="dim stripname">1/10</span>
+          <button class="pbtn o" data-strip="1" aria-label="Next screenshot"><span data-bt="fit"><b>▸</b></span></button>
+        </div>
       </div>
     </section>
 
