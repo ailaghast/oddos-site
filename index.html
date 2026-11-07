@@ -35,9 +35,10 @@
     </div>
   </header>
 
-  <!-- the windows, in reading mode's order (on the desktop they're placed by data-at instead) -->
+  <!-- the windows, in reading mode's order (on the desktop they're placed by data-at instead). Reading mode leaves out
+       .only-desktop windows, and opens the .app ones from its menu, over the page -->
   <main class="wins">
-    <section class="win" id="w-welcome" data-icon="welcome" data-title="Welcome" data-at="-4,198,164">
+    <section class="win only-desktop" id="w-welcome" data-icon="welcome" data-title="Welcome" data-at="-4,198,164">
       <div class="bd">
         <p data-bt class="mono">Hi.</p>
         <p data-bt class="mono">This is the home of Odd Pixel Labs, a game studio. Welcome to our computer.</p>
@@ -129,7 +130,7 @@
       </div>
     </section>
 
-    <section class="win tvwin" id="w-tv" data-icon="tv" data-title="Odd·Vision" data-at="-4,4,162">
+    <section class="win tvwin app" id="w-tv" data-icon="tv" data-title="Odd·Vision" data-at="-4,4,162">
       <div class="bd">
         <div id="ptv"></div>
         <div class="tvctl" aria-label="TV controls"></div>
@@ -137,7 +138,7 @@
     </section>
 
     <!-- Odd·Amp: the music player (js/oddamp.js) -->
-    <section class="win" id="w-amp" data-icon="music" data-title="Odd·Amp" data-at="240,30,170">
+    <section class="win app" id="w-amp" data-icon="music" data-title="Odd·Amp" data-at="240,30,170">
       <div class="bd amp">
         <canvas class="amp-panel" aria-hidden="true"></canvas>
         <div class="amp-ctl" aria-label="Player controls"></div>
@@ -167,7 +168,7 @@
       </div>
     </section>
 
-    <section class="win" id="w-lab" data-icon="flask" data-title="Lab" data-at="250,100,150">
+    <section class="win only-desktop" id="w-lab" data-icon="flask" data-title="Lab" data-at="250,100,150">
       <div class="bd"><p data-bt class="mono">C:\LAB\GAME2\</p><p data-bt class="mono">0 files. Still an idea.</p><p data-bt class="mono">Check back later.</p></div>
     </section>
 
@@ -180,7 +181,7 @@
       </div>
     </section>
 
-    <section class="win" id="w-odd" data-icon="die" data-title="oddoneout.exe" data-at="260,40,142">
+    <section class="win app" id="w-odd" data-icon="die" data-title="oddoneout.exe" data-at="260,40,142">
       <div class="bd" style="padding:6px 6px 7px">
         <div class="row oddhead"><p data-bt class="dim">Find the odd one out.</p><button class="oddmute" aria-label="Sound on"><canvas width="9" height="7" aria-hidden="true"></canvas></button></div>
         <canvas class="oddgame" aria-label="Odd one out: a grid of squares, click the one that is different"></canvas>
@@ -290,11 +291,12 @@
     <button data-win="videos"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Videos</span></button>
     <button data-win="mail"><img src="art/icons16/envelope.png" alt=""><span data-bt="fit">Mail &amp; newsletter</span></button>
     <button data-win="forum"><img src="art/icons16/forum.png" alt=""><span data-bt="fit">Forum</span></button>
-    <button data-win="tv"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Odd·Vision</span></button>
-    <button data-win="amp"><img src="art/icons16/music.png" alt=""><span data-bt="fit">Music</span></button>
     <button data-win="devlog"><img src="art/icons16/notebook.png" alt=""><span data-bt="fit">Devlog</span></button>
     <button data-win="about"><img src="art/icons16/floppy.png" alt=""><span data-bt="fit">About</span></button>
     <button data-win="press"><img src="art/icons16/presskit.png" alt=""><span data-bt="fit">Press kit</span></button>
+    <hr>
+    <button data-win="tv"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Watch TV</span></button>
+    <button data-win="amp"><img src="art/icons16/music.png" alt=""><span data-bt="fit">Music</span></button>
     <button data-win="odd"><img src="art/icons16/die.png" alt=""><span data-bt="fit">Play Odd one out</span></button>
     <hr>
     <button data-act="px"><canvas class="pxdie" width="16" height="16" aria-hidden="true"></canvas><span data-bt="fit">Pixel size: medium</span></button>

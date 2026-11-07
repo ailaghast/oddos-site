@@ -117,12 +117,15 @@ a { color: inherit; text-decoration: none; }
    scrolling: a body that can scroll, even with nothing to scroll, catches the swipe (that was the old reading mode's bug).
    The bar (.rbar) lives outside #os, where it can stay put. Classes on #os: .slim (narrower than 300: windows go edge to
    edge), .forced (the screen is too small for the desktop, so there's no going back to it), .held (a full-screen viewer
-   is open: #os is the screen's size again and the page waits behind it). --sl and --sr keep clear of a phone's notch. */
+   is open: #os is the screen's size again and the page waits behind it, still showing where it was: --held). --sl and
+   --sr keep clear of a phone's notch. Windows marked .only-desktop stay out of the page, and so do the .app windows: the
+   menu opens those over the page (.pop). */
 html.reading, html.reading body { height: auto; overflow: visible; }
 #os.plain { position: absolute; overflow: visible; padding: 22px var(--sr, 0px) 0 var(--sl, 0px); }
 #os.plain:not(.held) { height: auto !important; }
 #os.plain.held { position: fixed; overflow: hidden; }
-#os.plain .icons, #os.plain .task, #os.plain .menu, #os.plain .wall, #os.plain .glass, #os.plain .corner, #os.plain #w-welcome, #os.plain .tb button { display: none !important; }
+#os.plain.held .hero { margin-top: calc(0px - var(--held, 0px)); }
+#os.plain .icons, #os.plain .task, #os.plain .menu, #os.plain .wall, #os.plain .glass, #os.plain .corner, #os.plain .win.only-desktop, #os.plain .win.app:not(.pop), #os.plain .tb button { display: none !important; }
 .hero, .rfoot, .rbar, #os:not(.plain) .only-reading { display: none !important; }   /* .only-reading: windows the desktop doesn't have */
 #os.plain .hero { display: block !important; position: relative; height: 112px; margin: 0 calc(0px - var(--sr, 0px)) 0 calc(0px - var(--sl, 0px)); }
 .herowall { position: absolute; left: 0; top: 0; }
@@ -132,7 +135,7 @@ html.reading, html.reading body { height: auto; overflow: visible; }
 #os.plain .wins { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: -12px; padding: 0 6px; }   /* the first window stands on the nearest hill */
 #os.plain .win { display: flex !important; position: static; width: min(480px, 100%) !important; max-height: none !important; height: auto !important; }
 #os.plain .bd { overflow: visible; overflow: clip; }
-#os.plain .tb { cursor: default; background: var(--slate); color: var(--paper); }
+#os.plain .tb { cursor: default; background: var(--slate); color: var(--paper); touch-action: auto; }   /* no dragging here, so a swipe on a title bar scrolls */
 #os.plain.slim .wins { padding: 0; }
 #os.plain.slim .win { border-width: 1px 0; box-shadow: none; }
 
@@ -194,6 +197,12 @@ html.reading, html.reading body { height: auto; overflow: visible; }
 .rmenu hr { border: 0; border-top: 1px solid var(--line2); margin: 2px 0; }
 .rbar .toast { top: 26px; bottom: auto; }
 
+/* an app opened from the menu: its window in the middle of the screen, over the dimmed page; the X (bigger, for
+   fingers), a tap beside it, Escape or Back closes it */
+#os.plain.popping::after { content: ""; position: absolute; inset: 0; z-index: 930; background: rgba(6, 8, 11, .8); }
+#os.plain .win.pop { display: flex !important; position: absolute; z-index: 940 !important; border-width: 1px; box-shadow: 2px 2px 0 var(--ink); }
+#os.plain .win.pop .tb .x { display: block !important; width: 13px; height: 13px; margin-top: 2px; padding: 3px; }
+
 /* the pixel TV's two canvases stack: casing behind, screen in its window */
 .ptv canvas { position: absolute; left: 0; top: 0; }
 
@@ -214,7 +223,7 @@ html.reading, html.reading body { height: auto; overflow: visible; }
 .posts article.on, #os.plain .posts article { display: block; }
 .posts article > * + * { margin-top: 6px; }
 #os.plain .posts article + article { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line2); }
-#os.plain:not(.noposts) #w-devlog, #os.plain.noposts #w-post { display: none !important; }   /* no posts yet: the empty list says so */
+#os.plain #w-devlog, #os.plain.noposts #w-post, #os.noposts ~ .rbar [data-win="devlog"] { display: none !important; }   /* the posts themselves, once there are any */
 
 
 /* Odd·Amp */

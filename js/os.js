@@ -80,7 +80,7 @@
     w.prepend(tb);
     tb.querySelector('.mini').appendChild(sprite(SPR.mini)); tb.querySelector('.x').appendChild(sprite(SPR.close));
     tb.querySelector('.mini').onclick = e => { e.stopPropagation(); w.classList.remove('open'); syncTabs(); };
-    tb.querySelector('.x').onclick = e => { e.stopPropagation(); close(name); };
+    tb.querySelector('.x').onclick = e => { e.stopPropagation(); reading() ? unpop() : close(name); };
     w.addEventListener('pointerdown', () => !reading() && front(name));
     // drag by the title bar in whole art pixels, never off screen
     tb.addEventListener('pointerdown', e => {
@@ -130,12 +130,14 @@
   }
 
   // ---------- reading mode: one page, the bar, its menu ----------
-  // opening a window scrolls to it, just under the bar
+  // opening a window scrolls to it, just under the bar (an app opens over the page instead)
   const smooth = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
   function go(name, glide = true) {
     if (name === 'devlog' || name === 'post') name = posts.length ? 'post' : 'devlog';
     menu(false);
-    const w = wins[name]; if (!w || !w.offsetParent) return;
+    const w = wins[name]; if (!w) return;
+    if (w.classList.contains('app')) return pop(name);
+    if (!w.offsetParent) return;
     if ($('.fold', w)) unfold(w);
     scrollTo({ top: Math.max(0, Math.round(scrollY + w.getBoundingClientRect().top - (BAR + 6) * Z)), behavior: glide ? smooth() : 'auto' });
   }
@@ -147,20 +149,39 @@
   menuBtn.onclick = () => menu(!bar.classList.contains('open'));
   addEventListener('pointerdown', e => { if (bar.classList.contains('open') && !e.target.closest('.rbar')) menu(false); }, true);   // a tap anywhere else closes it
   // the menu marks the window being read (the last one whose top has passed the bar)
-  const ALIAS = { ddbinfo: 'ddb', post: 'devlog', lab: 'about' };
+  const ALIAS = { ddbinfo: 'ddb', post: 'devlog' };
   function here() {
     let cur = null; for (const [n, w] of Object.entries(wins)) if (w.offsetParent && w.getBoundingClientRect().top <= (BAR + 40) * Z) cur = ALIAS[n] || n;
     $$('[data-win]', bar).forEach(b => b.classList.toggle('here', b.dataset.win === cur));
   }
-  // a full-screen viewer (screenshots, OddTube) takes the screen and the page keeps its place behind it; on phones the
-  // Back button closes it
+  // a full-screen viewer (screenshots, OddTube) or an app takes the screen and the page keeps its place behind it (still
+  // showing, under an app); on phones the Back button closes it
   let heldY = 0;
   function hold(on) {
     if (!reading() || on === os.classList.contains('held')) return;
-    if (on) { heldY = scrollY; menu(false); os.classList.add('held'); if (touch) history.pushState({ viewer: 1 }, ''); }
+    if (on) { heldY = scrollY; menu(false); os.style.setProperty('--held', Math.round(heldY / Z) + 'px'); os.classList.add('held'); if (touch) history.pushState({ viewer: 1 }, ''); }
     else { os.classList.remove('held'); scrollTo(0, heldY); if (history.state?.viewer) history.back(); }
   }
-  addEventListener('popstate', () => { if (lb.classList.contains('open')) shots(false); else if (os.classList.contains('held')) trailer.close(); });
+  addEventListener('popstate', () => { if (lb.classList.contains('open')) shots(false); else if (popped) unpop(); else if (os.classList.contains('held')) trailer.close(); });
+  // the apps (Odd·Vision, Odd·Amp, Odd one out) aren't in the page: the menu opens each as a window in the middle of the
+  // screen, over the dimmed page. Closing one quits it, as its X does on the desktop
+  let popped = null;
+  function pop(name) {
+    if (popped || os.classList.contains('held')) return;
+    const w = wins[name]; hold(true); popped = name; os.classList.add('popping'); w.classList.add('pop', 'open');
+    w.style.setProperty('width', Math.min(+w.dataset.at.split(',')[2], AW - 4) + 'px', 'important');
+    BT.scan(w); $$('[data-bt]', w).forEach(BT.render);   // drawn now, at its width (text that waited hidden has no size yet)
+    if (name === 'odd') game.show(); if (name === 'amp') amp.show(); if (name === 'tv') centreControls();
+    const centre = () => { w.style.left = Math.round((AW - w.offsetWidth) / 2) + 'px'; w.style.top = Math.max(4, Math.round((AH - w.offsetHeight) / 2)) + 'px'; };
+    centre(); requestAnimationFrame(centre); snap();
+  }
+  function unpop() {
+    if (!popped) return;
+    const w = wins[popped]; w.classList.remove('pop', 'open'); w.style.removeProperty('width'); w.style.left = w.style.top = '';
+    if (popped === 'amp') amp.stop();
+    popped = null; os.classList.remove('popping'); hold(false);
+  }
+  os.addEventListener('click', e => { if (popped && e.target === os) unpop(); });   // a tap on the dimmed page beside it
   // re-laying out the page (another pixel size, a turned phone) keeps the window being read where it was on screen
   function keepPlace(f) {
     if (!reading()) return f();
@@ -206,12 +227,12 @@
       if (e.key === 'Escape') shots(false); if (e.key === 'ArrowRight') showShot(1); if (e.key === 'ArrowLeft') showShot(-1);
       return;
     }
-    if (reading()) { if (e.key === 'Escape') menu(false); return; }
+    if (reading() && e.key === 'Escape') return popped ? unpop() : menu(false);
     if (e.key === 'Escape') {
       if ($('#menu').classList.contains('open')) return $('#menu').classList.remove('open');
       const top = $$('.win.open').sort((a, b) => b.style.zIndex - a.style.zIndex)[0]; if (top) close(top.id.slice(2));
     }
-    if (wins.tv.classList.contains('open')) {
+    if (reading() ? popped === 'tv' : wins.tv.classList.contains('open')) {
       if (e.key === 'ArrowRight') tv.next(); if (e.key === 'ArrowLeft') tv.prev();
       if (e.key >= '1' && e.key <= String(tv.channels.length)) tv.tune(+e.key - 1);
     }
@@ -419,11 +440,12 @@
   function readMode(fresh) {
     os.classList.toggle('slim', AW < 300); os.classList.toggle('forced', small());
     paintWall(); stripSize(); centreControls(); BT.scan(bar);
-    if (fresh) { menu(false); game.show(); amp.show(); scrollTo(0, 0); }   // the game and the player draw while they're shown
+    if (fresh) { menu(false); scrollTo(0, 0); }
   }
   function mode(force) {
     const read = chosen || small(), was = reading();
     if (force || read !== was) {
+      if (!read) unpop();
       $$('.win').forEach(w => { w.classList.remove('open'); w.dataset.tab = ''; }); syncTabs();
       os.classList.toggle('plain', read); document.documentElement.classList.toggle('reading', read);
       [...$$('.tb [data-bt]'), ...$$('[data-bt]', bar)].forEach(BT.render);   // title bars change colour; the bar was drawn while hidden
