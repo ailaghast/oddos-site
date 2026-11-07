@@ -1,0 +1,293 @@
+/* OddOS, pixel perfect. Everything inside #os is measured in ART PIXELS: os.js scales #os so that one art pixel
+   is a whole number of device pixels (2x, 3x, 4x...). Rules: integer sizes only, no rounded corners, no blur,
+   no gradients except the TV and the glass scanlines, text only through bitmap-text.js (data-bt). */
+@font-face { font-family: "OddOS Sans"; src: url(../fonts/oddos-sans.otf); }
+:root {
+  --ink: #06080B; --night: #0F1318; --night2: #161B22; --night3: #1E252E; --line: #28313C; --line2: #34404D;
+  --slate: #294460; --slate-d: #1C2E42; --steel: #5F80A4; --mist-l: #C3D0DE; --dim: #8AA4C0; --paper: #F3EFE6;   /* --dim is brand mist: secondary text */
+  --tomato: #FF5A36; --tomato-d: #C23A1C;   /* tomato: the odd pixel and the main buttons only */
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--night); overflow: hidden; }
+img, canvas { display: block; image-rendering: pixelated; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
+a { color: inherit; text-decoration: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+[data-bt] { display: block; }   /* colour is inherited, so buttons and title bars set it */
+[data-bt="fit"] { display: inline-block; }
+:focus { outline: none; }
+:focus-visible { outline: 1px solid var(--paper); outline-offset: 1px; }
+
+#os { position: fixed; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; background: var(--night); color: var(--paper); user-select: none; -webkit-tap-highlight-color: transparent; }
+.wall { position: absolute; left: 0; top: 0; }
+
+/* glass: one-pixel scanlines and stepped corners (drawn by os.js) */
+.glass { position: absolute; inset: 0; z-index: 900; pointer-events: none; background: repeating-linear-gradient(180deg, rgba(6,8,11,.12) 0 1px, transparent 1px 2px); }
+.glass.off { background: none; }
+.corner { position: absolute; z-index: 901; pointer-events: none; }
+
+/* desktop icons */
+.icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
+/* the game's full name takes two lines (so both game windows fit beside the icons on a 640-wide desktop): the first row is
+   12px taller for it. Phones show it on one line, across two columns (pocket mode, below) */
+#os:not(.pocket) .ico[data-win="ddb"] { height: 60px; }
+#os.pocket .ico br { display: none; }
+.ico { width: 62px; height: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 2px; touch-action: manipulation; }
+.ico img { width: 32px; height: 32px; }
+.ico [data-bt] { padding: 1px 2px 0; }
+.ico.sel [data-bt], .ico:hover [data-bt] { background: var(--slate); color: var(--paper); }   /* highlighted labels drop their shadow (bitmap-text.js) */
+
+/* windows */
+.win { position: absolute; z-index: 10; display: none; flex-direction: column; background: var(--night); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); }
+.win.open { display: flex; }
+/* title bars are 18px so the 16px icon sits inside them, never over the frame */
+.tb { flex: none; height: 18px; display: flex; align-items: flex-start; gap: 3px; padding: 0 3px 0 1px; background: var(--night3); color: var(--mist-l); border-bottom: 1px solid var(--paper); cursor: grab; touch-action: none; }
+.win.front .tb { background: var(--slate); color: var(--paper); }
+.tb img { width: 16px; height: 16px; flex: none; }
+.tb .title { margin-top: 4px; }
+.tb .title { margin-right: auto; overflow: hidden; }
+.tb .tbtn { width: 9px; height: 9px; margin-top: 4px; padding: 1px; border: 1px solid currentColor; flex: none; }
+.tb .tbtn:hover { background-color: var(--night); border-color: var(--paper); }
+.tb .back { display: none; padding: 0 3px; margin-top: 4px; }
+.bd { padding: 6px 7px 7px; overflow: hidden auto; overscroll-behavior: contain; scrollbar-width: auto; }
+.bd::-webkit-scrollbar { width: 5px; height: 5px; }
+.bd::-webkit-scrollbar-track { background: var(--night2); }
+.bd::-webkit-scrollbar-thumb { background: var(--steel); }
+.bd::-webkit-scrollbar-corner { background: var(--night2); }
+.bd > * + * { margin-top: 6px; }
+.bd .mono { color: var(--mist-l); }
+.dim { color: var(--dim) !important; }
+.cy { color: var(--mist-l) !important; }
+.frame { border: 1px solid var(--line2); box-sizing: content-box; }   /* frame outside the image: never squeeze pixel art */
+
+/* buttons */
+.row { display: flex; flex-wrap: wrap; gap: 4px; }
+.pbtn { display: inline-flex; align-items: center; padding: 3px 5px 2px; background: var(--tomato); color: var(--night); box-shadow: 2px 2px 0 var(--ink); }
+.pbtn:hover { background: var(--paper); }
+.pbtn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+.pbtn.o { background: none; color: var(--paper); box-shadow: none; border: 1px solid var(--paper); padding: 2px 4px 1px; }
+.pbtn.o:hover { background: var(--paper); color: var(--night); }
+
+/* file lists */
+.files { list-style: none; }
+.files a { display: grid; grid-template-columns: 16px 1fr auto; gap: 5px; align-items: center; padding: 2px 3px 2px 2px; color: var(--paper); }
+.files a:hover, .files a:focus-visible { background: var(--slate); }
+.files img { width: 16px; height: 16px; }
+.files .meta { color: var(--dim); }
+
+/* text field (the real input is invisible; bitmap-text draws its value) */
+.field { position: relative; display: flex; align-items: center; height: 14px; padding: 0 3px; background: var(--night2); border: 1px solid var(--line2); cursor: text; min-width: 0; flex: 1 1 100px; overflow: hidden; }
+.field:focus-within { border-color: var(--mist-l); }
+.field input { position: absolute; inset: 0; width: 100%; opacity: 0; font-size: 16px; }
+.field .fieldtext { pointer-events: none; }
+
+/* newsletter signup in the Mail window (js/newsletter.js): the reply replaces the form on success */
+.signup[hidden], .formmsg[hidden] { display: none; }
+.signup button:disabled { opacity: .5; cursor: wait; }   /* not the input: it must stay invisible */
+.formmsg.err { color: var(--tomato); }
+.legal .maillink { display: flex; padding-bottom: 1px; color: var(--dim); }   /* the privacy link: quiet, still underlined; flex keeps its text level with the line's; .maillink:hover (later) turns it tomato */
+
+/* taskbar */
+.task { position: absolute; left: 0; right: 0; bottom: 0; height: 17px; z-index: 800; background: var(--night); border-top: 1px solid var(--paper); display: flex; align-items: center; gap: 3px; padding: 0 3px; }
+.start { display: flex; align-items: center; gap: 3px; height: 14px; padding: 0 4px 0 2px; background: var(--slate); border: 1px solid var(--paper); color: var(--paper); flex: none; }
+.start canvas { margin-top: -1px; }
+.tabs { display: flex; gap: 3px; overflow: hidden; min-width: 0; }
+.tabs button { height: 14px; padding: 0 4px; display: flex; align-items: center; background: var(--night2); border: 1px solid var(--line2); color: var(--mist-l); flex: none; }
+.tabs button.front { border-color: var(--paper); color: var(--paper); }
+.clock { margin-left: auto; padding: 0 3px; color: var(--mist-l); flex: none; }
+.menu { position: absolute; left: 3px; bottom: 19px; z-index: 850; width: 118px; background: var(--night); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); display: none; }
+.menu.open { display: block; }
+.menu .head { display: flex; align-items: center; gap: 4px; padding: 4px; background: var(--slate); }
+.menu button { display: flex; align-items: center; gap: 4px; width: 100%; padding: 1px 4px; color: var(--paper); }
+.menu button:hover, .menu button:focus-visible { background: var(--paper); color: var(--night); }
+.menu button img { width: 16px; height: 16px; }
+.menu hr { border: 0; border-top: 1px solid var(--line2); margin: 2px 0; }
+
+/* the TV window */
+.tvwin .bd { background: var(--night2); padding: 4px 6px 6px; overflow: hidden; }
+.tvctl { display: flex; gap: 2px; align-items: flex-start; margin-top: 4px; }
+/* 11x11 buttons (9x9 inside): odd sizes, so 5x7 digits and 3x5 / 5x5 symbols centre on whole pixels */
+.tvctl button { width: 11px; height: 11px; padding: 0; display: flex; align-items: center; justify-content: center; background: var(--night); border: 1px solid var(--line2); color: var(--mist-l); box-shadow: 0 1px 0 var(--ink); }
+.tvctl button:hover { border-color: var(--paper); color: var(--paper); }
+.tvctl button.cur { background: var(--paper); border-color: var(--paper); color: var(--night); }
+.tvctl .gap { width: 4px; }
+
+
+/* ---------- pocket mode (phones, portrait tablets) ---------- */
+.status { display: none; }
+#os.pocket .task, #os.pocket .menu { display: none !important; }
+#os.pocket .status { display: flex; position: absolute; left: 0; right: 0; top: 0; height: 13px; z-index: 30; align-items: center; gap: 3px; padding: 0 6px; background: var(--night); border-bottom: 1px solid var(--line2); }
+#os.pocket .status .clock { margin-left: auto; padding: 0; }
+#os.pocket .home { position: absolute; inset: 13px 0 0 0; overflow: auto; z-index: 1; padding: 8px 0 16px; }
+#os.pocket .icons { position: static; grid-auto-flow: row; grid-template-columns: repeat(auto-fill, 66px); grid-template-rows: none; grid-auto-columns: auto; justify-content: center; gap: 6px 2px; padding: 0 4px; }
+#os.pocket .ico { width: 66px; }
+#os.pocket .ico[data-win="ddb"] { grid-column: span 2; width: 134px; }
+#os.pocket .ico[data-win="welcome"] { display: none; }
+.card { display: none; }
+#os.pocket .card { display: block; margin: 0 auto 10px; width: min(260px, calc(100% - 16px)); padding: 5px 6px 6px; background: var(--night); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); }
+#os.pocket .card > * + * { margin-top: 4px; }
+#os.pocket .win { left: 0 !important; top: 13px !important; right: 0; bottom: 0; width: auto !important; max-height: none !important; border-width: 1px 0 0; box-shadow: none; }
+#os.pocket .tb { cursor: default; }
+#os.pocket .tb .back { display: block; }
+#os.pocket .tb .mini, #os.pocket .tb .x { display: none; }
+#os.pocket .bd { flex: 1; }
+#os.pocket .tvwin .bd { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* ---------- reading mode: every window, one after another ---------- */
+#os.plain { overflow-y: auto; }
+#os.plain .icons, #os.plain .task, #os.plain .menu, #os.plain .status, #os.plain .card, #os.plain .wall, #os.plain .glass, #os.plain .corner { display: none !important; }
+#os.plain .home { position: static; padding: 0; }
+.plainbar { display: none; }
+#os.plain .plainbar { display: flex; position: sticky; top: 0; z-index: 30; align-items: center; justify-content: space-between; padding: 4px 6px; background: var(--night); border-bottom: 1px solid var(--line2); }
+#os.plain .wins { padding: 6px 6px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+#os.plain .win { display: flex !important; position: static; width: min(260px, 100%) !important; max-height: none !important; height: auto !important; }
+#os.plain .win#w-shots { width: min(480px, 100%) !important; }
+#os.plain .win#w-ddbinfo { width: min(476px, 100%) !important; }
+#os:not(.plain) #w-shots { display: none !important; }
+.shotlist img { width: 100%; height: auto; image-rendering: auto; }
+#os.plain .tb { cursor: default; }
+#os.plain .tb button, #os.plain #w-welcome { display: none !important; }
+
+/* the pixel TV's two canvases stack: casing behind, screen in its window */
+.ptv canvas { position: absolute; left: 0; top: 0; }
+
+/* narrow screens crop wide pixel art instead of scaling it */
+#os.pocket .bd img.frame, #os.plain .bd img.frame { max-width: calc(100% - 2px); height: auto; object-fit: none; object-position: 30% 50%; }
+#os.pocket .bd img.frame[height="108"], #os.plain .bd img.frame[height="108"] { height: 108px; }
+#os.pocket .bd img.frame[height="120"], #os.plain .bd img.frame[height="120"] { height: 120px; }
+
+/* full-screen screenshot viewer (sits above the scanlines; the photo is sized in os.js) */
+.lightbox { position: absolute; inset: 0; z-index: 950; background: var(--ink); display: none; overflow: hidden; }
+.lightbox.open { display: block; }
+.lbimg { position: absolute; left: 0; top: 0; }
+.lbbar { position: absolute; left: 4px; bottom: 4px; padding: 3px; background: var(--night); border: 1px solid var(--line2); align-items: center; }
+.oddgame { margin: 0 auto; }
+#os.pocket .status .emb { cursor: pointer; }
+
+/* devlog reader: one post at a time on the desktop, all of them in reading mode */
+.posts article { display: none; }
+.posts article.on, #os.plain .posts article { display: block; }
+.posts article > * + * { margin-top: 6px; }
+#os.plain .posts article + article { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line2); }
+#os.plain #w-devlog { display: none !important; }
+
+
+/* Odd·Amp */
+.amp { padding: 4px; }
+.amp > * + * { margin-top: 4px; }
+.amp-panel { cursor: pointer; }
+.amp-ctl { display: flex; gap: 2px; }
+.amp-ctl button { width: 11px; height: 11px; display: flex; align-items: center; justify-content: center; background: var(--night3); border: 1px solid var(--line2); box-shadow: 0 1px 0 var(--ink); }
+.amp-ctl button:hover { border-color: var(--paper); }
+.amp-ctl button:active { transform: translateY(1px); box-shadow: none; }
+.amp-ctl .gap { flex: 1; }
+.amp-list { list-style: none; background: var(--ink); border: 1px solid var(--line2); padding: 1px; }
+.amp-list button { display: grid; grid-template-columns: 4px 1fr auto; gap: 3px; align-items: center; width: 100%; padding: 1px 2px; color: var(--dim); }
+.amp-list button:hover { color: var(--paper); }
+.amp-list .cur button { color: var(--paper); background: var(--slate-d); }
+.amp-list .mark { width: 4px; height: 4px; }
+.amp-list .playing .mark { background: var(--tomato); }
+
+.amp-list button > [data-bt]:not(.meta) { min-width: 0; overflow: hidden; }
+
+/* the game's long description: subheadings get extra room, pictures sit in the middle. The wide header capsule
+   swaps for the tall library capsule on phones, so neither is cropped. The animations (.anim) have see-through
+   backgrounds, so they go without a frame, as on the Steam page. They show at 2x (their width/height) where that
+   fits, and at their native 1x (narrower than 392) on phones */
+.gameinfo { container-type: inline-size; }
+.gameinfo h3 { margin-top: 10px !important; }
+.gameinfo img.frame, .gameinfo img.anim { display: block; margin-left: auto; margin-right: auto; }
+@container (max-width: 391px) { .gameinfo img.anim { width: auto; height: auto; } }
+.gameinfo img.cap-tall, #os.pocket .gameinfo img.cap-wide { display: none; }
+#os.pocket .gameinfo img.cap-tall { display: block; }
+
+/* long posts: subheadings, lists, pictures, and the older/newer links */
+.posts h3 { margin-top: 10px !important; }
+.posts .list { list-style: none; }
+.posts .list li { position: relative; padding-left: 8px; }
+.posts .list li::before { content: ""; position: absolute; left: 1px; top: 3px; width: 3px; height: 3px; background: var(--tomato); }
+.posts .list li + li { margin-top: 2px; }
+.postnav { margin-top: 10px !important; padding-top: 6px; border-top: 1px solid var(--line2); justify-content: space-between; }
+#os.plain .postnav { display: none; }
+#os.pocket #w-post .bd img.frame, #w-post img.frame { max-width: calc(100% - 2px); }
+.oddhead { justify-content: space-between; align-items: center; }
+.oddmute { width: 13px; height: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line2); background: var(--night); flex: none; }
+.oddmute:hover { border-color: var(--paper); }
+.oddhead { flex-wrap: nowrap; }
+.oddhead > p { flex: 1 1 0; min-width: 0; }
+
+/* the screenshot viewer's corner X */
+.lbx { position: absolute; top: 4px; right: 4px; }
+
+/* OddTube: an old video-site page, light like the real thing (paper, slate links, tomato for the red bits) */
+.theatre { position: absolute; left: 0; top: 0; z-index: 960; display: none; overflow: hidden; background: var(--paper); color: #1C2E42; }
+.theatre.open { display: block; }
+.theatre .dim, .theatre .tdim { color: #66737F !important; }
+.tube { position: absolute; inset: 0; overflow: hidden auto; padding: 6px 8px 16px; }
+.thead { display: flex; align-items: center; gap: 8px; padding: 0 18px 6px 0; border-bottom: 1px solid #C3D0DE; }
+.tsearch { gap: 3px; align-items: center; flex-wrap: nowrap; }
+.tfield { display: flex; align-items: center; width: 140px; height: 14px; padding: 0 3px; background: #fff; border: 1px solid #96A1AB; }
+.tbtnl { display: flex; align-items: center; height: 14px; padding: 0 5px; background: #E4E7EC; border: 1px solid #96A1AB; }
+.tsign { margin-left: auto; color: var(--slate); }
+.tgrid { display: flex; gap: 6px; margin-top: 6px; align-items: flex-start; }
+.tmain { flex: 1 1 0; min-width: 0; max-width: 482px; }   /* 480 + the player border: one game pixel per art pixel */
+.tmain > * + * { margin-top: 6px; }
+.tside { width: 130px; flex: none; }
+.tsidehead { padding: 2px 4px; background: #E4E7EC; border: 1px solid #C3D0DE; }
+.theatre u { text-decoration: none; }
+.theatre [data-bt] u, .theatre u { color: var(--slate); }
+.tplayer { background: var(--ink); border: 1px solid var(--ink); }
+.tscreen { position: relative; overflow: hidden; background: #000; }
+.tscreen video { position: absolute; cursor: pointer; }
+.tbar { height: 15px; display: flex; align-items: center; gap: 4px; padding: 0 2px; background: #1E252E; border-top: 1px solid #34404D; color: var(--mist-l); }
+.tbar .row { gap: 2px; align-items: center; flex-wrap: nowrap; flex: none; }
+.tbtn2 { width: 13px; height: 11px; display: flex; align-items: center; justify-content: center; background: #28313C; border: 1px solid #34404D; flex: none; }
+.tbtn2:hover { border-color: var(--paper); }
+.tseek { flex: none; cursor: pointer; }
+.ttime { color: var(--mist-l); }
+.tinfo { align-items: center; gap: 6px; flex-wrap: nowrap; }
+.tavatar { flex: none; border: 1px solid #96A1AB; box-sizing: content-box; }
+.tchan { display: flex; flex-direction: column; gap: 1px; }
+.tsub { display: flex; align-items: center; height: 14px; padding: 0 5px; background: var(--tomato); color: var(--paper); border: 1px solid var(--tomato-d); }
+.tviews { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.tdesc { padding: 4px 5px 6px; background: #fff; border: 1px solid #C3D0DE; }
+.tdesc > * + * { margin-top: 4px; }
+.tcomments > * + * { margin-top: 5px; }
+.tcomment { padding: 3px 4px; border-top: 1px solid #C3D0DE; }
+.tauthor { background: #E4E7EC; }
+.trel { display: flex; gap: 4px; padding: 4px 2px; border-bottom: 1px solid #E4E7EC; color: #1C2E42; }
+.trel:hover { background: #E4E7EC; }
+.tthumb { position: relative; flex: none; width: 66px; height: 38px; border: 1px solid var(--ink); }
+.tthumb img { width: 64px; height: 36px; }
+.tlen { position: absolute; right: 0; bottom: 0; padding: 1px 2px 0; background: var(--ink); color: var(--paper); }
+.trelt { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.tend { position: absolute; width: 200px; padding: 6px 7px 7px; background: var(--night); color: var(--paper); border: 1px solid var(--paper); box-shadow: 2px 2px 0 var(--ink); z-index: 2; }
+.tend > * + * { margin-top: 5px; }
+.tend[hidden] { display: none; }
+.theatre.ended video { opacity: .2; }
+.tclose { position: absolute; top: 4px; right: 4px; z-index: 5; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; background: var(--paper); border: 1px solid var(--slate); }
+.tclose:hover { background: #E4E7EC; }
+/* the theatre: the video on the whole screen, the bar floating at the bottom and hiding while it plays */
+.tstage { display: none; position: absolute; inset: 0; background: var(--ink); }
+.theatre.full .tstage { display: block; }
+.theatre.full .tube { display: none; }
+.theatre.full .tclose { background: var(--night); border-color: var(--line2); }
+.tstage video { position: absolute; cursor: pointer; }
+.tstage .tbar { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; padding: 0 4px; }
+.theatre.quiet .tstage .tbar, .theatre.quiet .tclose { display: none; }
+.theatre.quiet .tstage video { cursor: none; }
+/* phones: one column */
+.theatre.narrow .tgrid { flex-direction: column; }
+.theatre.narrow .tmain { max-width: none; width: 100%; }
+.theatre.narrow .tside { width: 100%; }
+.theatre.narrow .tsearch { display: none; }
+.maillink { display: inline-block; color: var(--paper); border-bottom: 1px solid var(--tomato); }
+.maillink:hover { color: var(--tomato); }
+.devlog-empty { color: var(--dim) !important; }
+/* the easter egg's note */
+.toast { position: absolute; bottom: 26px; z-index: 880; display: flex; align-items: center; gap: 4px; padding: 4px 6px; background: var(--night); color: var(--paper); border: 1px solid var(--tomato); box-shadow: 2px 2px 0 var(--ink); pointer-events: none; }
+#os.pocket .toast { bottom: 12px; }
+/* OddTube scrolls with a pixel scrollbar in its own light colours */
+.tube::-webkit-scrollbar { width: 5px; }
+.tube::-webkit-scrollbar-track { background: #E4E7EC; }
+.tube::-webkit-scrollbar-thumb { background: #96A1AB; }

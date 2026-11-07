@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Odd Pixel Labs — OddOS</title>
+<meta name="description" content="Odd Pixel Labs is a game studio. Home of Dice Dice Battles.">
+<link rel="icon" href="art/favicon-slate.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/os.css">
+</head>
+<body>
+<div id="os">
+  <canvas class="wall" aria-hidden="true"></canvas>
+
+  <div class="plainbar"><span data-bt="fit"><b>Odd Pixel Labs</b></span><button class="pbtn o" data-act="desktop"><span data-bt="fit"><b>Back to OddOS</b></span></button></div>
+  <div class="status"><canvas class="emb" aria-hidden="true"></canvas><span data-bt="fit"><b>OddOS</b></span><span class="clock" data-bt="fit"></span></div>
+
+  <div class="home">
+    <div class="card">
+      <span data-bt><b>Hi.</b></span>
+      <span data-bt class="mono">This is the home of Odd Pixel Labs, a game studio. Welcome to our computer. Tap things and explore.</span>
+      <button class="pbtn o" data-act="plain"><span data-bt="fit"><b>Read it all as one page</b></span></button>
+    </div>
+    <nav class="icons" aria-label="Apps">
+      <button class="ico" data-win="ddb"><img src="art/icons/ddb.png" alt=""><span data-bt="fit" data-shadow="#06080B" data-align="center">Dice Dice<br> Battles</span></button>
+      <button class="ico" data-win="tv"><img src="art/icons/tv.png" alt=""><span data-bt="fit" data-shadow="#06080B">Odd·Vision</span></button>
+      <button class="ico" data-win="devlog"><img src="art/icons/notebook.png" alt=""><span data-bt="fit" data-shadow="#06080B">Devlog</span></button>
+      <button class="ico" data-win="about"><img src="art/icons/floppy.png" alt=""><span data-bt="fit" data-shadow="#06080B">About</span></button>
+      <button class="ico" data-win="amp"><img src="art/icons/music.png" alt=""><span data-bt="fit" data-shadow="#06080B">Music</span></button>
+      <button class="ico" data-win="forum"><img src="art/icons/forum.png" alt=""><span data-bt="fit" data-shadow="#06080B">Forum</span></button>
+      <button class="ico" data-win="mail"><img src="art/icons/envelope.png" alt=""><span data-bt="fit" data-shadow="#06080B">Mail</span></button>
+      <button class="ico" data-win="lab"><img src="art/icons/flask.png" alt=""><span data-bt="fit" data-shadow="#06080B">Lab</span></button>
+      <button class="ico" data-win="press"><img src="art/icons/presskit.png" alt=""><span data-bt="fit" data-shadow="#06080B">Press kit</span></button>
+      <button class="ico" data-win="welcome"><img src="art/icons/welcome.png" alt=""><span data-bt="fit" data-shadow="#06080B">Welcome</span></button>
+    </nav>
+  </div>
+
+  <main class="wins">
+    <section class="win" id="w-welcome" data-icon="welcome" data-title="Welcome" data-at="-4,198,164">
+      <div class="bd">
+        <p data-bt class="mono">Hi.</p>
+        <p data-bt class="mono">This is the home of Odd Pixel Labs, a game studio. Welcome to our computer.</p>
+        <p data-bt class="mono">Click things, drag windows, explore. If you'd rather just read, the Odd menu has a reading mode.</p>
+      </div>
+    </section>
+
+    <section class="win" id="w-ddb" data-icon="ddb" data-title="DiceDiceBattles.exe" data-at="160,8,250">
+      <div class="bd">
+        <img class="frame" src="art/capsule-small.png" width="231" height="87" alt="Dice Dice Battles">
+        <p data-bt>A roguelike dice battler. Shop for strange dice, line them up, and unleash them on a cursed dungeon. Or pit them against other players in async PvP. Coming to PC in 2027.</p>
+        <div class="row">
+          <a class="pbtn" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a>
+          <button class="pbtn o" data-win="ddbinfo"><span data-bt="fit"><b>About the game</b></span></button>
+          <button class="pbtn o" data-act="shots"><span data-bt="fit"><b>Screenshots</b></span></button>
+          <button class="pbtn o" data-act="trailer"><span data-bt="fit"><b>Trailer</b></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- the long description (same copy as the Steam page). On top, the Steam header capsule (the library capsule on phones);
+         the animations are the Steam page's GIFs (native files from _tools/build-game-art.js), in the same places, shown at 2x where they fit -->
+    <section class="win" id="w-ddbinfo" data-icon="ddb" data-title="About Dice Dice Battles" data-at="150,4,476">
+      <div class="bd gameinfo">
+        <img class="frame cap-wide" src="art/capsule-header.png" width="460" height="215" style="height:215px" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
+        <img class="frame cap-tall" src="art/capsule-library.png" width="200" height="300" style="height:300px" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
+        <img class="anim" src="art/game/dice-spin.gif" width="388" height="84" alt="Six dice from different families, spinning">
+        <p data-bt>Dice Dice Battles is a roguelike about lining up dice that make each other stronger. Fortuna, the goddess of luck, has swallowed all the world's luck. Pick your champion and head down into her cursed dungeon to bring it back.</p>
+        <p data-bt>Your dice roll and activate from left to right, attacking, defending, and setting each other off. Some power up, repeat, or copy their neighbors, so moving one die can change the whole line.</p>
+        <img class="anim" src="art/game/dice-roll.gif" width="390" height="140" alt="A line of six dice hopping one after another, left to right">
+        <p data-bt>Between battles, buy new dice, charms, and upgrades. Merge matching dice into stronger versions, group dice families for bonuses, and find the order that makes your build work.</p>
+        <p data-bt>Stamp your dice with new traits, switch their family, or notch and enchant their faces. The dungeon fights dirty: enemies curse, jam, and swallow your dice. Fight through three acts to reach Fortuna herself.</p>
+        <img class="anim" src="art/game/chips-walk.gif" width="390" height="100" alt="Two poker-chip monsters walking past: a knight with a chip shield and a stack of chips with teeth">
+        <h3 data-bt><b>Duel other players</b></h3>
+        <p data-bt>In Rivals mode, face other players' lineups from the same round in asynchronous PvP. Twenty wins take the crown.</p>
+        <h3 data-bt><b>Make every life count</b></h3>
+        <p data-bt>Every win earns a trophy, every loss costs a life. Collect fifteen trophies before your five lives run out. Every trip to the shop is a chance to turn things around.</p>
+        <h3 data-bt><b>Rebuild the goddess</b></h3>
+        <p data-bt>Each run earns shards that rebuild her at the Shrine, unlocking new champions, dice, charms, and cosmetic die finishes along the way.</p>
+        <h3 data-bt><b>Find your next challenge</b></h3>
+        <p data-bt>Try a shared Daily Run, take a winning build into Endless to see how deep it can go, or unlock tougher runs with 10 Heresy difficulty levels.</p>
+        <img class="anim" src="art/game/shopkeeper.gif" width="260" height="120" alt="The shopkeeper, a mouse with a backpack: Psst, friend! Wishlist me now.">
+        <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
+      </div>
+    </section>
+
+    <!-- reading mode only: the screenshots as plain images (on the desktop they open in the full-screen viewer) -->
+    <section class="win" id="w-shots" data-icon="die" data-title="Dice Dice Battles screenshots" data-at="0,0,480">
+      <div class="bd shotlist">
+        <img src="assets/shots-ddb/01_fortuna.png" alt="Dice Dice Battles: the Warden fighting Fortuna">
+        <img src="assets/shots-ddb/02_pitboss.png" alt="Dice Dice Battles: a 128 hit on the Pit Boss">
+        <img src="assets/shots-ddb/05_shop.png" alt="Dice Dice Battles: the shop">
+        <img src="assets/shots-ddb/08_rivals.png" alt="Dice Dice Battles: a Rivals fight against another player">
+      </div>
+    </section>
+
+    <section class="win" id="w-odd" data-icon="die" data-title="oddoneout.exe" data-at="260,40,142">
+      <div class="bd" style="padding:6px 6px 7px">
+        <div class="row oddhead"><p data-bt class="dim">Find the odd one out.</p><button class="oddmute" aria-label="Sound on"><canvas width="9" height="7" aria-hidden="true"></canvas></button></div>
+        <canvas class="oddgame" aria-label="Odd one out: a grid of squares, click the one that is different"></canvas>
+      </div>
+    </section>
+
+    <section class="win tvwin" id="w-tv" data-icon="tv" data-title="Odd·Vision" data-at="-4,4,162">
+      <div class="bd">
+        <div id="ptv"></div>
+        <div class="tvctl" aria-label="TV controls"></div>
+      </div>
+    </section>
+
+    <section class="win" id="w-devlog" data-icon="notebook" data-title="Devlog" data-at="190,40,200">
+      <div class="bd">
+        <ul class="files"></ul>
+        <p data-bt class="mono devlog-empty">Nothing here yet. The first entry is still in the jar.</p>
+      </div>
+    </section>
+
+    <!-- the devlog reader: every post is an <article data-post="id"> in .posts (and a matching <li> in the Devlog list);
+         the window shows one at a time, reading mode shows them all. Long posts can use <h3>, <img class="frame">, <ul class="list">. -->
+    <section class="win" id="w-post" data-icon="notebook" data-title="Devlog" data-at="220,24,230">
+      <div class="bd posts">
+      </div>
+    </section>
+
+    <section class="win" id="w-about" data-icon="floppy" data-title="about.txt" data-at="210,24,176">
+      <div class="bd">
+        <canvas class="frame aboutscene" width="160" height="120" role="img" aria-label="Two cats staring at a jar on a shelf; inside, the odd pixel floats up and down"></canvas>
+        <p data-bt class="mono">LOCATION: undisclosed<br>STAFF: unknown<br>CATS: 2.5</p>
+        <p data-bt class="mono">We found an odd pixel and have been running tests on it ever since. So far it has produced Dice Dice Battles. More experiments are in progress.</p>
+      </div>
+    </section>
+
+    <section class="win" id="w-mail" data-icon="envelope" data-title="Mail" data-at="230,80,200">
+      <div class="bd">
+        <a class="maillink" href="mailto:oddpixellabs@gmail.com"><span data-bt="fit"><b>oddpixellabs@gmail.com</b></span></a>
+        <p data-bt>Best for press and business. Game questions get answered faster on the forum.</p>
+        <div class="row"><button class="pbtn o" data-win="forum"><span data-bt="fit"><b>Go to the forum</b></span></button></div>
+        <p data-bt class="dim">Or get an email when there's news: release dates, demos, playtests and launches.</p>
+        <!-- Kit form "Odd Pixel – Website" (odd-pixel-labs.kit.com/d408a76bd8); js/newsletter.js sends it without leaving the page -->
+        <form class="row signup" action="https://app.kit.com/forms/10135561/subscriptions" method="post" novalidate>
+          <label class="field"><input type="email" name="email_address" placeholder="you@example.com" aria-label="Email address" autocomplete="email" required></label>
+          <button class="pbtn" type="submit"><span data-bt="fit"><b>Sign up</b></span></button>
+        </form>
+        <p data-bt class="formmsg" role="status" aria-live="polite" hidden></p>
+        <div class="row legal"><span data-bt="fit" class="dim">Unsubscribe anytime.</span> <a class="maillink" href="https://forum.oddpixellabs.com/privacy" target="_blank" rel="noopener"><span data-bt="fit">Privacy policy</span></a></div>
+      </div>
+    </section>
+
+    <section class="win" id="w-lab" data-icon="flask" data-title="Lab" data-at="250,100,150">
+      <div class="bd"><p data-bt class="mono">C:\LAB\GAME2\</p><p data-bt class="mono">0 files. Still an idea.</p><p data-bt class="mono">Check back later.</p></div>
+    </section>
+
+    <section class="win" id="w-press" data-icon="presskit" data-title="Press kit" data-at="220,60,208">
+      <div class="bd">
+        <p data-bt>Logos, screenshots, trailers and fact sheets for every game live in one shared Google Drive folder.</p>
+        <div class="row"><a class="pbtn o" href="https://drive.google.com/" target="_blank" rel="noopener"><span data-bt="fit"><b>Open the press kit</b></span></a></div>
+        <p data-bt><b>Streamers and video makers</b></p>
+        <p data-bt class="mono">You are free to stream, make videos about and monetise any Odd Pixel Labs game. Have fun with it.</p>
+      </div>
+    </section>
+
+    <section class="win" id="w-forum" data-icon="forum" data-title="Forum" data-at="230,70,190">
+      <div class="bd">
+        <p data-bt><b>The Odd Pixel Labs forum</b></p>
+        <p data-bt>The home of every Odd Pixel game. Share runs, trade strategies, report bugs, and hang out. It's where we're most active.</p>
+        <div class="row"><a class="pbtn" href="https://forum.oddpixellabs.com" target="_blank" rel="noopener"><span data-bt="fit"><b>Open the forum</b></span></a></div>
+        <p data-bt class="dim">Opens forum.oddpixellabs.com in a new tab.</p>
+      </div>
+    </section>
+
+    <!-- Odd·Amp: the music player (js/oddamp.js) -->
+    <section class="win" id="w-amp" data-icon="music" data-title="Odd·Amp" data-at="240,30,170">
+      <div class="bd amp">
+        <canvas class="amp-panel" aria-hidden="true"></canvas>
+        <div class="amp-ctl" aria-label="Player controls"></div>
+        <ol class="amp-list" aria-label="Playlist"></ol>
+      </div>
+    </section>
+  </main>
+
+  <div class="menu" id="menu">
+    <div class="head"><canvas class="emb" aria-hidden="true"></canvas><span data-bt="fit"><b>Odd Pixel Labs</b></span></div>
+    <button data-win="ddb"><img src="art/icons16/ddb.png" alt=""><span data-bt="fit">Dice Dice Battles</span></button>
+    <button data-win="devlog"><img src="art/icons16/notebook.png" alt=""><span data-bt="fit">Devlog</span></button>
+    <button data-win="about"><img src="art/icons16/floppy.png" alt=""><span data-bt="fit">About</span></button>
+    <button data-win="forum"><img src="art/icons16/forum.png" alt=""><span data-bt="fit">Forum</span></button>
+    <button data-win="mail"><img src="art/icons16/envelope.png" alt=""><span data-bt="fit">Contact</span></button>
+    <button data-win="tv"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Watch TV</span></button>
+    <button data-win="amp"><img src="art/icons16/music.png" alt=""><span data-bt="fit">Music</span></button>
+    <hr>
+    <button data-act="plain"><img src="art/icons16/notebook.png" alt=""><span data-bt="fit">Reading mode</span></button>
+    <button data-act="crt"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Scanlines on/off</span></button>
+    <button data-act="px"><canvas class="pxdie" width="16" height="16" aria-hidden="true"></canvas><span data-bt="fit">Pixel size: medium</span></button>
+    <hr>
+    <button data-act="sound"><img src="art/icons16/music.png" alt=""><span data-bt="fit">Sound: on</span></button>
+    <hr>
+    <button data-win="odd"><img src="art/icons16/die.png" alt=""><span data-bt="fit">Play Odd one out</span></button>
+  </div>
+
+  <div class="task">
+    <button class="start" id="start" aria-haspopup="true"><canvas class="emb" aria-hidden="true"></canvas><span data-bt="fit"><b>Odd</b></span></button>
+    <div class="tabs" id="tabs"></div>
+    <span class="clock" data-bt="fit"></span>
+  </div>
+  <!-- full-screen screenshot viewer: the original 1920x1080 files, shown pixel for pixel where the screen allows -->
+  <div class="lightbox" role="dialog" aria-label="Screenshots">
+    <img class="lbimg" alt="">
+    <button class="tbtn2 lbx" aria-label="Close the screenshots"></button>
+    <div class="lbbar row">
+      <button class="pbtn o" data-shot="-1"><span data-bt="fit"><b>◂ Prev</b></span></button>
+      <button class="pbtn o" data-shot="1"><span data-bt="fit"><b>Next ▸</b></span></button>
+      <span data-bt="fit" class="dim shotname">1/10</span>
+      <button class="pbtn o lbclose"><span data-bt="fit"><b>Close</b></span></button>
+    </div>
+  </div>
+  <!-- OddTube (js/trailer.js): the trailer as an old video-site page. The videos are listed in js/tubevideos.js (the
+       first one is also the source below). Texts here are placeholders for the text pass. -->
+  <div class="theatre" role="dialog" aria-label="Dice Dice Battles trailer">
+    <div class="tube">
+      <header class="thead">
+        <canvas class="tlogo" role="img" aria-label="OddTube"></canvas>
+        <div class="tsearch row"><span class="tfield"><span data-bt="fit" class="tdim">dice dice battles</span></span><span class="tbtnl"><span data-bt="fit"><b>Search</b></span></span></div>
+        <span class="tsign" data-bt="fit"><u>Sign In</u></span>
+      </header>
+      <div class="tgrid">
+        <main class="tmain">
+          <div class="ttitle"></div>
+          <div class="tplayer">
+            <div class="tscreen">
+              <video data-native="480" playsinline preload="metadata" poster="trailer/ddb-trailer-poster.png" src="trailer/ddb-trailer.mp4"></video>
+              <div class="tend" hidden>
+                <div class="tendtext"></div>
+                <div class="row"><a class="pbtn twish" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a><button class="pbtn o tagain"><span data-bt="fit"><b>Watch again</b></span></button><button class="pbtn o tnext"><span data-bt="fit"><b>Next video</b></span></button></div>
+              </div>
+            </div>
+            <div class="tbar">
+              <div class="tleft row"><button class="tbtn2 tplay"></button><button class="tbtn2 tvol"></button></div>
+              <canvas class="tseek" aria-label="Seek"></canvas>
+              <div class="tright row"><span class="ttime" data-bt="fit">0:00 / 0:00</span><button class="tbtn2 tfull"></button></div>
+            </div>
+          </div>
+          <div class="tinfo row">
+            <img class="tavatar" src="art/icons16/ddb.png" width="16" height="16" alt="">
+            <div class="tchan"><span data-bt="fit"><b><u>oddpixellabs</u></b></span><span data-bt="fit" class="tdim tcount">7 videos</span></div>
+            <a class="tsub" href="#"><span data-bt="fit"><b>Subscribe</b></span></a>
+            <div class="tviews"><span class="tviewcount"></span><canvas class="tstars" role="img"></canvas></div>
+          </div>
+          <section class="tdesc"></section>
+          <section class="tcomments"></section>
+        </main>
+        <aside class="tside">
+          <p data-bt class="tsidehead"><b>Related Videos</b></p>
+          <div class="trellist"></div>
+        </aside>
+      </div>
+    </div>
+    <div class="tstage"></div>
+    <button class="tclose" aria-label="Close"></button>
+  </div>
+  <div class="glass" aria-hidden="true"></div>
+</div>
+
+<script src="js/palette.js"></script>
+<script src="js/glyphs.js"></script>
+<script src="js/emblem.js"></script>
+<script src="js/bitmap-text.js"></script>
+<script src="js/wallpaper.js"></script>
+<script src="js/tvsound.js"></script>
+<script src="js/pixeltv.js"></script>
+<script src="js/oddoneout.js"></script>
+<script src="js/oddamp.js"></script>
+<script src="js/tubevideos.js"></script>
+<script src="js/trailer.js"></script>
+<script src="js/os.js"></script>
+<script src="js/newsletter.js"></script>
+</body>
+</html>
