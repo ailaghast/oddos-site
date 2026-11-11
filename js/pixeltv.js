@@ -1,5 +1,5 @@
 // Odd·Vision, a CRT TV drawn as pixel art. Casing and screen are canvases at art resolution. Channels:
-// 1 the studio avatar, 2 Dice Dice Battles, 3 live cuts from its fights, 4 no signal
+// 1 the studio avatar, 2 Dice Dice Battles, 3 Gladiatoria, 4 and 5 live cuts from each game's fights, 6 no signal
 // (mostly: see "the odd hour").
 // The game's art is shown at its native resolution (one game pixel = one art pixel), only in text-free areas
 // (the game draws its text on a finer grid, which doesn't survive the reduction).
@@ -34,7 +34,7 @@
         rrect(ctx, 7, 23, SW + 6, SH + 6, 8, C.out); rrect(ctx, 8, 24, SW + 4, SH + 4, 7, C.bezel);
         text(ctx, 'ODD·VISION', 10, 128, C.label, { bold: true });
         for (let gx = 0; gx < 5; gx++) for (let gy = 0; gy < 2; gy++) px(ctx, W - 46 + gx * 4, 128 + gy * 4, C.out, 2, 2);
-        const led = st.on ? (st.odd ? TOMATO : '#5DA35E') : '#C23A1C';   // tomato on the last channel in the odd hour
+        const led = st.on ? (st.odd ? TOMATO : '#5DA35E') : '#C23A1C';   // tomato on channel 6 in the odd hour
         px(ctx, W - 18, 129, led, 3, 3); px(ctx, W - 18, 129, st.on ? PAPER : '#C23A1C', 1, 1);
       } },
   };
@@ -42,11 +42,19 @@
   // ---------- channels, drawn into the 128x96 screen ----------
   // live cuts: spots from four fights (Fortuna, the Pit Boss, the Fates, the Fool's encore)
   const CUTS = [['shot-01_fortuna.png', 350, 48], ['shot-02_pitboss.png', 305, 54], ['shot-03_fates.png', 300, 50], ['shot-04_abbot.png', 60, 50]];
+  // and Gladiatoria's: 128x96 native crops (_tools/build-gladiatoria-art.js): a beast hunt, the ludus, a judgement
+  const GCUTS = ['live-wolves', 'live-boar', 'live-ludus', 'live-judgement'].map(n => `gladiatoria/${n}.png`);
   const CH = [
     { name: 'Odd Pixel Labs', imgs: ['tv-avatar.png'], draw(ctx, t, I) { ctx.drawImage(I['tv-avatar.png'], 0, 0); } },
     { name: 'Dice Dice Battles, on Steam', imgs: ['hero.png'], draw(ctx, t, I, st) {
       ctx.drawImage(I['hero.png'], 70, 59, SW, SH, 0, 0, SW, SH);   // the four champions and the first die
       // ON STEAM blinks from the start (the channel number draws on top while it shows)
+      if (Math.floor(t / 650) % 2 === 0) { const w = tw('ON STEAM', true); px(ctx, 5, 5, TOMATO, w + 6, 11); text(ctx, 'ON STEAM', 8, 7, NIGHT, { bold: true }); }
+    } },
+    { name: 'Gladiatoria, on Steam', imgs: ['gladiatoria/hero.png'], draw(ctx, t, I) {
+      // a slow pan along the key art's lower edge, from one pair of gladiators past the amphitheatre to the other and back
+      const x = Math.round(45 + 555 * (1 - Math.cos(t / 72000 * Math.PI * 2)) / 2);
+      ctx.drawImage(I['gladiatoria/hero.png'], x, 148, SW, SH, 0, 0, SW, SH);
       if (Math.floor(t / 650) % 2 === 0) { const w = tw('ON STEAM', true); px(ctx, 5, 5, TOMATO, w + 6, 11); text(ctx, 'ON STEAM', 8, 7, NIGHT, { bold: true }); }
     } },
     { name: 'LIVE: Dice Dice Battles', imgs: [...new Set(CUTS.map(c => c[0]))], draw(ctx, t, I) {
@@ -55,6 +63,13 @@
       ctx.drawImage(I[img], x, y, SW, SH, 0, 0, SW, SH);
       const w = tw('LIVE', true); px(ctx, 5, SH - 16, TOMATO, w + 12, 11); text(ctx, 'LIVE', 14, SH - 14, NIGHT, { bold: true });
       if (Math.floor(t / 500) % 2 === 0) px(ctx, 8, SH - 12, NIGHT, 3, 3);   // the blinking dot
+    } },
+    { name: 'LIVE: Gladiatoria', imgs: GCUTS, draw(ctx, t, I) {
+      const k = Math.floor(t / 2400) % GCUTS.length;
+      if (t % 2400 < 70) { noise(ctx); return; }
+      ctx.drawImage(I[GCUTS[k]], 0, 0);
+      const w = tw('LIVE', true); px(ctx, 5, SH - 16, TOMATO, w + 12, 11); text(ctx, 'LIVE', 14, SH - 14, NIGHT, { bold: true });
+      if (Math.floor(t / 500) % 2 === 0) px(ctx, 8, SH - 12, NIGHT, 3, 3);
     } },
     { name: 'No signal', imgs: [], odd: true, draw(ctx, t, I, st) {
       if (st.odd) return oddHour.call(this, ctx, st);
@@ -65,7 +80,7 @@
   function noise(ctx, keep = 1) { for (let y = 0; y < SH; y++) for (let x = 0; x < SW; x += 2) px(ctx, x, y, Math.random() < keep ? GREYS[Math.random() * GREYS.length | 0] : INK, 2, 1); }
   const noSignal = (ctx, keep = 1) => { noise(ctx, keep); if (Math.random() < keep) text(ctx, 'NO SIGNAL', (SW - tw('NO SIGNAL', true)) >> 1, (SH >> 1) - 4, PAPER, { bold: true, shadow: INK }); };
 
-  // ---------- the odd hour: on channel 4, between 00:00 and 00:59 (or with ?oddhour), the static isn't empty ----------
+  // ---------- the odd hour: on channel 6, between 00:00 and 00:59 (or with ?oddhour), the static isn't empty ----------
   // It settles, and the odd pixel from the lab's jar is in there. It beats, it talks, it opens an eye that follows your
   // pointer, then the picture tears and it's static again. 24 seconds, from the moment you tune in, then round again.
   const isOddHour = () => /[?&]oddhour/.test(location.search) || new Date().getHours() === 0;

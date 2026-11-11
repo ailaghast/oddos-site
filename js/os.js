@@ -149,7 +149,7 @@
   menuBtn.onclick = () => menu(!bar.classList.contains('open'));
   addEventListener('pointerdown', e => { if (bar.classList.contains('open') && !e.target.closest('.rbar')) menu(false); }, true);   // a tap anywhere else closes it
   // the menu marks the window being read (the last one whose top has passed the bar)
-  const ALIAS = { ddbinfo: 'ddb', post: 'devlog' };
+  const ALIAS = { ddbinfo: 'ddb', gladinfo: 'gladiatoria', gshots: 'gladiatoria', post: 'devlog' };
   function here() {
     let cur = null; for (const [n, w] of Object.entries(wins)) if (w.offsetParent && w.getBoundingClientRect().top <= (BAR + 40) * Z) cur = ALIAS[n] || n;
     $$('[data-win]', bar).forEach(b => b.classList.toggle('here', b.dataset.win === cur));
@@ -255,6 +255,7 @@
   // scaled down smoothly to fit, like a photo. Each game's Screenshots button names its set (data-game).
   const GAMES = {
     ddb: { name: 'Dice Dice Battles', dir: 'shots-ddb', shots: [['01_fortuna', 'Fortuna'], ['02_pitboss', 'The Pit Boss'], ['03_fates', 'The Fates'], ['04_abbot', 'The Abbot'], ['05_shop', 'The shop'], ['06_stamp', 'Stamping a die'], ['07_notch', 'Notching a face'], ['08_rivals', 'Rivals'], ['09_champion', 'Champions'], ['10_compendium', 'The Compendium']] },
+    gladiatoria: { name: 'Gladiatoria', dir: 'shots-gladiatoria', shots: [['01_judgement', 'Judgement'], ['02_wolves', 'A beast hunt'], ['03_parry', 'Parry'], ['04_champion', 'Champion'], ['05_critical', 'Critical'], ['06_ludus', 'The ludus'], ['07_market', 'The market'], ['08_gladiators', 'Your gladiators'], ['09_games', 'The games'], ['10_victoria', 'Victoria']] },
   };
   const lb = $('.lightbox'), lbimg = $('.lbimg');
   let shotSet = GAMES.ddb, SHOTS = shotSet.shots, shotI = 0;
@@ -422,20 +423,25 @@
   // too small for the desktop: reading mode, always. A touch screen: a phone either way up, or a tablet standing up. With
   // a mouse, only a really small window: a tall, narrow browser window on a computer still gets the desktop
   function small() { return innerWidth < 700 || innerHeight < 520 || (touch && innerWidth < 1000 && innerHeight > innerWidth); }
-  // what's open on arrival: the game right of the icons, then the TV with the Welcome note under it at
+  // what's open on arrival: the two games side by side right of the icons, then the TV with the Welcome note under it at
   // the right edge, as many as fit without covering each other. The rest start minimised in the taskbar, one click away.
-  // Most desktops fit all three; if the TV and the note don't fit beside the game, they wait in the taskbar.
+  // A 640-wide desktop (1080p, 1440p and 4K at the medium pixel size) fits both games; wider ones fit everything;
+  // narrower ones (a MacBook at medium) keep Gladiatoria with the TV, and Dice Dice Battles waits in the taskbar.
   function firstLook() {
     const o = os.getBoundingClientRect(), left = Math.ceil(Math.max(...$$('.ico').map(i => (i.getBoundingClientRect().right - o.left) / Z))) + 2;
     const wd = n => +wins[n].dataset.at.split(',')[2], gap = 2, right = AW - 4, side = Math.max(wd('tv'), wd('welcome'));
-    const plan = left + wd('ddb') + gap + side <= right ? { ddb: left, tv: true, welcome: true } : { ddb: left };
-    ['welcome', 'ddb', 'tv'].forEach(n => { open(n); if (typeof plan[n] === 'number') place(wins[n], plan[n], wins[n].offsetTop); });
+    const games = left + wd('ddb') + gap + wd('gladiatoria'), next = left + wd('ddb') + gap;
+    const plan = games + gap + side <= right ? { ddb: left, gladiatoria: next, tv: true, welcome: true }
+      : games <= right ? { ddb: left, gladiatoria: next }
+      : left + wd('gladiatoria') + gap + side <= right ? { gladiatoria: left, tv: true, welcome: true }
+      : { gladiatoria: left };
+    ['welcome', 'ddb', 'gladiatoria', 'tv'].forEach(n => { open(n); if (typeof plan[n] === 'number') place(wins[n], plan[n], wins[n].offsetTop); });
     // the note goes under the TV, or waits too if the screen is too short for both
     const tvEnd = wins.tv.offsetTop + wins.tv.offsetHeight + gap + 2;
     if (plan.welcome && wins.welcome.offsetTop < tvEnd) { place(wins.welcome, wins.welcome.offsetLeft, tvEnd); if (tvEnd + wins.welcome.offsetHeight > AH - TASK) plan.welcome = false; }
     wins.welcome.style.maxHeight = (AH - TASK - 2 - wins.welcome.offsetTop) + 'px';
     Object.keys(wins).forEach(n => { if (wins[n].dataset.tab && !plan[n]) wins[n].classList.remove('open'); });
-    front('ddb');
+    front(plan.gladiatoria !== undefined ? 'gladiatoria' : 'ddb');
   }
   // reading mode's layout: edge to edge below 300 art pixels; the strip, the TV keys and the sky fit the width
   function readMode(fresh) {
