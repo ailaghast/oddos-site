@@ -32,7 +32,7 @@
     on() { if (!ensure()) return; const t = ac.currentTime; tone(t, 'sine', 55, 90, .18, .16); tone(t + .05, 'sine', 2500, 7000, .35, .012); burst(t + .05, .3, .07, 1500, 5000); settle(800); },
     // the easter egg's little fanfare
     chime() { if (!ensure()) return; const t = ac.currentTime; [523, 659, 784, 1047, 1319].forEach((f, i) => tone(t + i * .09, 'square', f, f, .12, .035)); settle(1200); },
-    // the odd hour on channel 4: a low heartbeat thump, and the picture tearing (a rough burst over a falling hum)
+    // the odd hour on channel 6: a low heartbeat thump, and the picture tearing (a rough burst over a falling hum)
     beat() { if (!ensure()) return; const t = ac.currentTime; tone(t, 'sine', 62, 38, .22, .3); settle(600); },
     glitch() { if (!ensure()) return; const t = ac.currentTime; burst(t, .9, .14, 300, 6000); tone(t, 'sawtooth', 160, 30, .9, .05); settle(1400); },
   };

@@ -9,6 +9,9 @@
     { title: 'Title screen', game: 'Dice Dice Battles', src: 'music/title-screen.ogg' },
     { title: 'Into the dungeon', game: 'Dice Dice Battles', src: 'music/into-the-dungeon.ogg' },
     { title: 'The shop', game: 'Dice Dice Battles', src: 'music/the-shop.ogg' },
+    { title: 'Sand and Glory', game: 'Sand and Glory', src: 'music/sand-and-glory-title.mp3' },   // the title screen
+    { title: 'The ludus', game: 'Sand and Glory', src: 'music/sand-and-glory-ludus.mp3' },
+    { title: 'The arena', game: 'Sand and Glory', src: 'music/sand-and-glory-arena.mp3' },
   ];
   const PW = 156, PH = 52, TOMATO = '#FF5A36', PAPER = '#F3EFE6', INK = '#06080B';
   const px = (ctx, x, y, c, w = 1, h = 1) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
