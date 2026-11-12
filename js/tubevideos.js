@@ -2,7 +2,7 @@
 // file: trailer/<file>.<ext> plus trailer/<file>-poster.png. ext: optional, webm if left out. thumb: art/tube/<thumb>.png (64x36, _tools/build-tube-thumbs.js). rating: 4 to 5, in halves. comment: optional, always
 // from oddpixellabs. wishlist: show the Steam button; steam: its link if it isn't Dice Dice Battles'. native: the game's
 // width in pixels for exact scaling (480 if left out; 0 = none). Keep sidebar titles to short words (the column is narrow).
-const STEAM_GLADIATORIA = 'https://store.steampowered.com/app/4506820/Gladiatoria_Blood__Sand__Glory/';
+const STEAM_GLADIATORIA = 'https://store.steampowered.com/app/4506820/';
 window.ODDTUBE = [
   { id: 'trailer', title: 'Dice Dice Battles - Official Trailer', file: 'ddb-trailer', ext: 'mp4', thumb: 'trailer', len: '1:15', views: '1,337', rating: 4.5,
     added: 'October 24, 2026', wishlist: true,
