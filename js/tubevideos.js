@@ -6,7 +6,7 @@ const STEAM_GLADIATORIA = 'https://store.steampowered.com/app/4506820/';
 window.ODDTUBE = [
   { id: 'trailer', title: 'Dice Dice Battles - Official Trailer', file: 'ddb-trailer', ext: 'mp4', thumb: 'trailer', len: '1:15', views: '1,337', rating: 4.5,
     added: 'October 24, 2026', wishlist: true,
-    desc: "Dice Dice Battles is a roguelike dice battler. Shop for strange dice, line them up, and unleash them on Fortuna's cursed dungeon. Or pit them against other players in async PvP. Coming to PC in 2027.",
+    desc: "Buy strange dice, line them up, and watch them play off each other. Move one die and the whole line changes. A roguelike dice battler about finding absurd combos, then testing them against a cursed dungeon or other players in async PvP. Coming to PC in 2027.",
     comment: ['1 day ago', 'Thanks for watching!'] },
   { id: 'reaction', title: 'FOOL REACTS to Rivals mode', file: 'reaction', thumb: 'reaction', len: '0:22', views: '4,096', rating: 4.5,
     added: 'October 29, 2026', wishlist: true, desc: 'The Fool has opinions about a Rivals run. Captions on, because the bells are loud.',
