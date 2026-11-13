@@ -198,6 +198,7 @@
     <section class="win" id="w-devlog" data-icon="notebook" data-title="Devlog" data-at="190,40,200">
       <div class="bd">
         <ul class="files">
+          <li><a href="#" data-post="champions"><img src="art/icons16/ddb.png" alt=""><span data-bt="fit">Meet the champions</span><span data-bt="fit" class="meta">Nov 13</span></a></li>
           <li><a href="#" data-post="ludus"><img src="art/icons16/helmet.png" alt=""><span data-bt="fit">Welcome to the ludus</span><span data-bt="fit" class="meta">Nov 13</span></a></li>
         </ul>
         <p data-bt class="mono devlog-empty">Nothing here yet. The first entry is still in the jar.</p>
@@ -207,10 +208,45 @@
     <!-- the devlog reader: every post is an <article data-post="id"> in .posts (and a matching <li> in the Devlog list);
          the window shows one at a time, reading mode shows them all. Long posts can use <h3>, <img class="frame">, <ul class="list">.
          Pictures (art/devlog/, made by _tools/build-devlog-art.js): pixel art at native size (class px2: shown at 2x where
-         it fits, 1x on phones), or class photo for captures that aren't on a whole-pixel grid (scaled smoothly to the
+         it fits, 1x on phones; add class wide when 2x is 400 wide), or class photo for captures that aren't on a whole-pixel grid (scaled smoothly to the
          window's width). Posts copied from Steam keep the Steam text; links go in buttons, since text is drawn. -->
     <section class="win" id="w-post" data-icon="notebook" data-title="Devlog" data-at="150,4,476">
       <div class="bd posts">
+        <!-- Dice Dice Battles' first Steam post: store.steampowered.com/news/app/5427200/view/667256037088166705 -->
+        <article data-post="champions">
+          <h3 data-bt class="posthead"><b>Meet the champions</b></h3>
+          <p data-bt class="dim">Dice Dice Battles · Nov 13, 2026</p>
+          <img class="frame" src="art/devlog/champions-banner.gif" width="260" height="61" style="height:61px;object-position:50% 50%" loading="lazy" alt="Five dice tumbling in place: fire, shield, sword, heart and coin">
+          <p data-bt>Hi there! We're Odd Pixel Labs, and Dice Dice Battles is our chill roguelike about lining up strange dice that set each other off, until the numbers get a little ridiculous.</p>
+          <p data-bt>Every run starts with just one die: your champion's. Everything else, you buy in the shop along the way. So the champion you pick helps you decide what to go shopping for. Here are the four.</p>
+          <h3 data-bt><b>The Warden</b></h3>
+          <p data-bt class="dim">Oathsworn of the Last Gate</p>
+          <img class="frame px2 wide" src="art/devlog/champions-warden.png" width="400" height="100" loading="lazy" alt="The Warden, in plumed armour behind a lion shield, strikes a skeleton, next to a pile of six Block shields">
+          <p data-bt>The tank. The Warden holds the line, and his Oath Die would rather defend than attack. So you build up a big wall of Block, then put a die with Bash right after it: Bash hits as hard as your Block is high. His dice also get stronger the longer a fight lasts, so there's no rush. The Warden has all day.</p>
+          <h3 data-bt><b>The Cutpurse</b></h3>
+          <p data-bt class="dim">Pickpocket of the Gods</p>
+          <img class="frame px2 wide" src="art/devlog/champions-cutpurse.png" width="400" height="100" loading="lazy" alt="The Cutpurse, in a green hood, throws a volley of knives over a table of coins at a snake made of gold coins">
+          <p data-bt>He steals for a living, and he fights the same way. His Knave Die pilfers coins mid-fight, and the more coins he pockets in a turn, the harder he mugs. Then there are the knives: line them up, and each one hits harder than the one before. So you buy more knives. Then a few more knives. Then a few more after that.</p>
+          <h3 data-bt><b>The Witch</b></h3>
+          <p data-bt class="dim">Keeper of the Last Spark</p>
+          <img class="frame px2 wide" src="art/devlog/champions-witch.png" width="400" height="100" loading="lazy" alt="The Witch, in a red hat, has set a slime, a skeleton and a rat on fire">
+          <p data-bt>For all you pyromaniacs out there. Set everything on fire, keep feeding the flames, then cash it all in with one big hit. When a burning enemy dies, the fire moves on to its friends. The Witch can't take much of a hit, so the plan is simple: leave nobody standing to deliver one.</p>
+          <h3 data-bt><b>The Fool</b></h3>
+          <p data-bt class="dim">Jester of the Lost Court</p>
+          <img class="frame px2 wide" src="art/devlog/champions-fool.png" width="400" height="100" loading="lazy" alt="The Fool, a jester in purple, sends an arc of dice at a poker-chip knight: x12">
+          <p data-bt>Chaos incarnate, and the most fragile of the four. The Fool's dice copy each other, repeat each other, and like to pull every trick in the book. At the end of every turn, your highest-numbered die goes once more. Line it all up right, and a single die can fire twelve times in one turn.</p>
+          <img class="frame" src="art/devlog/champions-mastery.gif" width="259" height="88" style="height:88px;object-position:50% 50%" loading="lazy" alt="A row of five dice (fire, shield, sword, heart, coin), each jumping up and spinning in turn">
+          <p data-bt>You start with the Warden, and the others join you as you play. Stick with a favorite long enough and their dice start to dress the part: five mastery ranks per champion, each with its own die finish, from the Warden's humble Squire's Iron all the way up to Lionheart.</p>
+          <img class="frame px2" src="art/devlog/champions-wishlist.gif" width="260" height="120" loading="lazy" alt="A mouse in a green hood with a big backpack: Psst, friend! Wishlist me.">
+          <p data-bt>Wishlist and follow Dice Dice Battles so Steam lets you know when the demo is out!</p>
+          <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/5427200/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
+          <p data-bt>See you in the dungeon!<br>Odd from Odd Pixel Labs</p>
+          <p data-bt class="dim">Want news by email? Or come say hi on our forum.</p>
+          <div class="row">
+            <button class="pbtn o" data-win="mail"><span data-bt="fit"><b>Sign up for news</b></span></button>
+            <a class="pbtn o" href="https://forum.oddpixellabs.com/c/dicedicebattles?utm_source=oddos&amp;utm_content=intro-devlog" target="_blank" rel="noopener"><span data-bt="fit"><b>Go to the forum</b></span></a>
+          </div>
+        </article>
         <!-- Gladiatoria's first Steam post: store.steampowered.com/news/app/4506820/view/717921532895035986 -->
         <article data-post="ludus">
           <h3 data-bt class="posthead"><b>Welcome to the ludus</b></h3>

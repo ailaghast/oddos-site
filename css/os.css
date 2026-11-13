@@ -209,8 +209,8 @@ html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even
 
 /* narrow screens crop wide pixel art instead of scaling it */
 #os.plain .bd img.frame { max-width: calc(100% - 2px); height: auto; object-fit: none; object-position: 30% 50%; }
-#os.plain .bd img.frame[height="108"] { height: 108px; }
-#os.plain .bd img.frame[height="120"] { height: 120px; }
+#os.plain .bd img.frame:not(.px2)[height="108"] { height: 108px; }   /* not px2: those go to 1x instead (posts) */
+#os.plain .bd img.frame:not(.px2)[height="120"] { height: 120px; }
 
 /* full-screen screenshot viewer (sits above the scanlines; the photo is sized in os.js) */
 .lightbox { position: absolute; inset: 0; z-index: 950; background: var(--ink); display: none; overflow: hidden; touch-action: pan-y pinch-zoom; }   /* sideways swipes are ours (os.js), pinching still zooms */
@@ -273,6 +273,7 @@ html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even
 #os .posts img.photo { width: calc(100% - 2px); max-width: none; image-rendering: auto; }
 #os.plain .posts img.frame.photo, #os.plain .posts img.frame.px2 { object-fit: fill; }   /* scaled, not cropped like other wide art */
 @container (max-width: 311px) { .posts img.px2 { width: auto; height: auto; } }
+@container (max-width: 403px) { .posts img.px2.wide { width: auto; height: auto; } }   /* px2 pictures 400 wide */
 #os:not(.noposts) .devlog-empty { display: none; }
 .oddhead { justify-content: space-between; align-items: center; }
 .oddmute { width: 13px; height: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line2); background: var(--night); flex: none; }
