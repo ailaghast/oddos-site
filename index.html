@@ -14,8 +14,8 @@
   <canvas class="wall" aria-hidden="true"></canvas>
 
   <nav class="icons" aria-label="Apps">
-    <button class="ico" data-win="ddb"><img src="art/icons/ddb.png" alt=""><span data-bt="fit" data-shadow="#06080B" data-align="center">Dice Dice<br> Battles</span></button>
     <button class="ico" data-win="gladiatoria"><img src="art/icons/helmet.png" alt=""><span data-bt="fit" data-shadow="#06080B">Gladiatoria</span></button>
+    <button class="ico" data-win="ddb"><img src="art/icons/ddb.png" alt=""><span data-bt="fit" data-shadow="#06080B" data-align="center">Dice Dice<br> Battles</span></button>
     <button class="ico" data-win="tv"><img src="art/icons/tv.png" alt=""><span data-bt="fit" data-shadow="#06080B">Odd·Vision</span></button>
     <button class="ico" data-win="devlog"><img src="art/icons/notebook.png" alt=""><span data-bt="fit" data-shadow="#06080B">Devlog</span></button>
     <button class="ico" data-win="about"><img src="art/icons/floppy.png" alt=""><span data-bt="fit" data-shadow="#06080B">About</span></button>
@@ -47,8 +47,56 @@
       </div>
     </section>
 
-    <!-- the small capsule on the desktop and wide pages; phones get the library capsule (native 200x300) instead -->
-    <section class="win" id="w-ddb" data-icon="ddb" data-title="DiceDiceBattles.exe" data-at="160,8,250">
+    <!-- Gladiatoria, the main game, comes first (Dice Dice Battles' three windows follow). The small capsule on the desktop
+         and wide pages; phones get the library capsule (native 200x300) instead. The pictures in its long description are
+         native crops from the screenshots (_tools/build-gladiatoria-art.js), at 2x where they fit -->
+    <section class="win" id="w-gladiatoria" data-icon="helmet" data-title="Gladiatoria.exe" data-at="160,8,250">
+      <div class="bd">
+        <img class="frame cap-small" src="art/gladiatoria/capsule-small.png" width="231" height="87" alt="Gladiatoria">
+        <img class="frame cap-tall" src="art/gladiatoria/capsule-library.png" width="200" height="300" style="height:300px" loading="lazy" alt="Gladiatoria: Blood, Sand, Glory. An amphitheatre at sunset, with gladiators on either side">
+        <p data-bt>Your father is dead. His debts are not. They're yours now, along with his gladiator school. Buy, train and arm your fighters, and send them into brutal real-time arena battles. You have 60 days to reach Rome's Grand Games. Fail, and a senator takes everything.</p>
+        <div class="row">
+          <a class="pbtn" href="https://store.steampowered.com/app/4506820/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a>
+          <button class="pbtn o" data-win="gladinfo"><span data-bt="fit"><b>About the game</b></span></button>
+          <button class="pbtn o" data-act="shots" data-game="gladiatoria"><span data-bt="fit"><b>Screenshots</b></span></button>
+          <button class="pbtn o" data-act="trailer" data-video="gladiatoria"><span data-bt="fit"><b>Trailer</b></span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="win" id="w-gladinfo" data-icon="helmet" data-title="About Gladiatoria" data-at="150,4,476">
+      <div class="bd gameinfo">
+        <img class="frame cap-wide" src="art/gladiatoria/capsule-header.png" width="460" height="215" style="height:215px" alt="Gladiatoria: Blood, Sand, Glory. An amphitheatre at sunset, with gladiators on either side">
+        <p data-bt>Capua, 79 AD. Your father built his gladiator school from nothing, and left it with even less. Now you're a young lanista with fighters to feed and a senator who expects his money on time. In 60 days, Rome's Grand Games begin at the Flavian Amphitheatre. Turn your inheritance into the greatest gladiator school in Rome, or lose it trying.</p>
+        <p data-bt>Gladiatoria combines gladiator management with real-time arena combat. Recruit and train your fighters, decide how to spend your coin, and send your school's finest into the sand, where they fight on their own. Let their training do the talking, or take control yourself.</p>
+        <img class="frame anim fold" src="art/gladiatoria/wolves.png" width="390" height="144" alt="Two gladiators fighting wolves and a boar in the arena">
+        <h3 data-bt><b>Fighters with baggage</b></h3>
+        <p data-bt>Every gladiator has their own name, origin and traits. Shape recruits into champions across 10 fighting styles, sell them, or bury them. Death is permanent, and every grave gets an honest epitaph: "Never won a bout. Admirably consistent."</p>
+        <h3 data-bt><b>Run the school</b></h3>
+        <p data-bt>Give daily orders, upgrade your buildings, and balance food, morale and coin. Navigate scheming rivals and difficult choices while keeping enough aside for the senator.</p>
+        <img class="frame anim" src="art/gladiatoria/ludus.png" width="390" height="200" alt="The training yard: a trainer shouts Stand straight! and a gladiator answers As you say!">
+        <h3 data-bt><b>Rule the arena</b></h3>
+        <p data-bt>Your gladiators fight for themselves, guided by your training. Watch them chain combos, parry and throw sand through duels, team fights and beast hunts, or take control of one fighter at any time and hand it back whenever you like. Win the crowd, then decide who deserves mercy. The crowd will have opinions.</p>
+        <img class="frame anim" src="art/gladiatoria/judgement.png" width="390" height="180" alt="A beaten gladiator kneels in the sand beside his dropped sword, awaiting judgement">
+        <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/4506820/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
+      </div>
+    </section>
+
+    <!-- reading mode only: a game's screenshots in a strip to swipe through (js/os.js fills it from GAMES[data-game]); a tap
+         opens the full-screen viewer -->
+    <section class="win only-reading" id="w-gshots" data-icon="helmet" data-title="Gladiatoria screenshots" data-at="0,0,480">
+      <div class="bd shotlist">
+        <div class="strip" data-game="gladiatoria"></div>
+        <div class="row stripnav">
+          <button class="pbtn o" data-strip="-1" aria-label="Previous screenshot"><span data-bt="fit"><b>◂</b></span></button>
+          <span data-bt="fit" class="dim stripname">1/10</span>
+          <button class="pbtn o" data-strip="1" aria-label="Next screenshot"><span data-bt="fit"><b>▸</b></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dice Dice Battles: the same three windows as Gladiatoria -->
+    <section class="win" id="w-ddb" data-icon="ddb" data-title="DiceDiceBattles.exe" data-at="184,8,250">
       <div class="bd">
         <img class="frame cap-small" src="art/capsule-small.png" width="231" height="87" alt="Dice Dice Battles">
         <img class="frame cap-tall" src="art/capsule-library.png" width="200" height="300" style="height:300px" loading="lazy" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
@@ -89,56 +137,9 @@
       </div>
     </section>
 
-    <!-- reading mode only: a game's screenshots in a strip to swipe through (js/os.js fills it from GAMES[data-game]); a tap
-         opens the full-screen viewer -->
     <section class="win only-reading" id="w-shots" data-icon="die" data-title="Dice Dice Battles screenshots" data-at="0,0,480">
       <div class="bd shotlist">
         <div class="strip" data-game="ddb"></div>
-        <div class="row stripnav">
-          <button class="pbtn o" data-strip="-1" aria-label="Previous screenshot"><span data-bt="fit"><b>◂</b></span></button>
-          <span data-bt="fit" class="dim stripname">1/10</span>
-          <button class="pbtn o" data-strip="1" aria-label="Next screenshot"><span data-bt="fit"><b>▸</b></span></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gladiatoria: the same three windows as Dice Dice Battles. The pictures in its long description are native crops
-         from the screenshots (_tools/build-gladiatoria-art.js), at 2x where they fit -->
-    <section class="win" id="w-gladiatoria" data-icon="helmet" data-title="Gladiatoria.exe" data-at="184,8,250">
-      <div class="bd">
-        <img class="frame cap-small" src="art/gladiatoria/capsule-small.png" width="231" height="87" alt="Gladiatoria">
-        <img class="frame cap-tall" src="art/gladiatoria/capsule-library.png" width="200" height="300" style="height:300px" loading="lazy" alt="Gladiatoria: Blood, Sand, Glory. An amphitheatre at sunset, with gladiators on either side">
-        <p data-bt>Your father is dead. His debts are not. They're yours now, along with his gladiator school. Buy, train and arm your fighters, and send them into brutal real-time arena battles. You have 60 days to reach Rome's Grand Games. Fail, and a senator takes everything.</p>
-        <div class="row">
-          <a class="pbtn" href="https://store.steampowered.com/app/4506820/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a>
-          <button class="pbtn o" data-win="gladinfo"><span data-bt="fit"><b>About the game</b></span></button>
-          <button class="pbtn o" data-act="shots" data-game="gladiatoria"><span data-bt="fit"><b>Screenshots</b></span></button>
-          <button class="pbtn o" data-act="trailer" data-video="gladiatoria"><span data-bt="fit"><b>Trailer</b></span></button>
-        </div>
-      </div>
-    </section>
-
-    <section class="win" id="w-gladinfo" data-icon="helmet" data-title="About Gladiatoria" data-at="150,4,476">
-      <div class="bd gameinfo">
-        <img class="frame cap-wide" src="art/gladiatoria/capsule-header.png" width="460" height="215" style="height:215px" alt="Gladiatoria: Blood, Sand, Glory. An amphitheatre at sunset, with gladiators on either side">
-        <p data-bt>Capua, 79 AD. Your father built his gladiator school from nothing, and left it with even less. Now you're a young lanista with fighters to feed and a senator who expects his money on time. In 60 days, Rome's Grand Games begin at the Flavian Amphitheatre. Turn your inheritance into the greatest gladiator school in Rome, or lose it trying.</p>
-        <p data-bt>Gladiatoria combines gladiator management with real-time arena combat. Recruit and train your fighters, decide how to spend your coin, and send your school's finest into the sand, where they fight on their own. Let their training do the talking, or take control yourself.</p>
-        <img class="frame anim fold" src="art/gladiatoria/wolves.png" width="390" height="144" alt="Two gladiators fighting wolves and a boar in the arena">
-        <h3 data-bt><b>Fighters with baggage</b></h3>
-        <p data-bt>Every gladiator has their own name, origin and traits. Shape recruits into champions across 10 fighting styles, sell them, or bury them. Death is permanent, and every grave gets an honest epitaph: "Never won a bout. Admirably consistent."</p>
-        <h3 data-bt><b>Run the school</b></h3>
-        <p data-bt>Give daily orders, upgrade your buildings, and balance food, morale and coin. Navigate scheming rivals and difficult choices while keeping enough aside for the senator.</p>
-        <img class="frame anim" src="art/gladiatoria/ludus.png" width="390" height="200" alt="The training yard: a trainer shouts Stand straight! and a gladiator answers As you say!">
-        <h3 data-bt><b>Rule the arena</b></h3>
-        <p data-bt>Your gladiators fight for themselves, guided by your training. Watch them chain combos, parry and throw sand through duels, team fights and beast hunts, or take control of one fighter at any time and hand it back whenever you like. Win the crowd, then decide who deserves mercy. The crowd will have opinions.</p>
-        <img class="frame anim" src="art/gladiatoria/judgement.png" width="390" height="180" alt="A beaten gladiator kneels in the sand beside his dropped sword, awaiting judgement">
-        <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/4506820/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
-      </div>
-    </section>
-
-    <section class="win only-reading" id="w-gshots" data-icon="helmet" data-title="Gladiatoria screenshots" data-at="0,0,480">
-      <div class="bd shotlist">
-        <div class="strip" data-game="gladiatoria"></div>
         <div class="row stripnav">
           <button class="pbtn o" data-strip="-1" aria-label="Previous screenshot"><span data-bt="fit"><b>◂</b></span></button>
           <span data-bt="fit" class="dim stripname">1/10</span>
@@ -193,17 +194,48 @@
       </div>
     </section>
 
+    <!-- newest post first; the icon says which game it's about -->
     <section class="win" id="w-devlog" data-icon="notebook" data-title="Devlog" data-at="190,40,200">
       <div class="bd">
-        <ul class="files"></ul>
+        <ul class="files">
+          <li><a href="#" data-post="ludus"><img src="art/icons16/helmet.png" alt=""><span data-bt="fit">Welcome to the ludus</span><span data-bt="fit" class="meta">Nov 13</span></a></li>
+        </ul>
         <p data-bt class="mono devlog-empty">Nothing here yet. The first entry is still in the jar.</p>
       </div>
     </section>
 
     <!-- the devlog reader: every post is an <article data-post="id"> in .posts (and a matching <li> in the Devlog list);
-         the window shows one at a time, reading mode shows them all. Long posts can use <h3>, <img class="frame">, <ul class="list">. -->
-    <section class="win" id="w-post" data-icon="notebook" data-title="Devlog" data-at="220,24,230">
+         the window shows one at a time, reading mode shows them all. Long posts can use <h3>, <img class="frame">, <ul class="list">.
+         Pictures (art/devlog/, made by _tools/build-devlog-art.js): pixel art at native size (class px2: shown at 2x where
+         it fits, 1x on phones), or class photo for captures that aren't on a whole-pixel grid (scaled smoothly to the
+         window's width). Posts copied from Steam keep the Steam text; links go in buttons, since text is drawn. -->
+    <section class="win" id="w-post" data-icon="notebook" data-title="Devlog" data-at="150,4,476">
       <div class="bd posts">
+        <!-- Gladiatoria's first Steam post: store.steampowered.com/news/app/4506820/view/717921532895035986 -->
+        <article data-post="ludus">
+          <h3 data-bt class="posthead"><b>Welcome to the ludus</b></h3>
+          <p data-bt class="dim">Gladiatoria · Nov 13, 2026</p>
+          <img class="frame" src="art/devlog/ludus-banner.gif" width="308" height="88" style="height:88px" loading="lazy" alt="Two pairs of gladiators sparring in front of the amphitheatre at night">
+          <p data-bt>Hi there! We're Odd Pixel Labs, and Gladiatoria is our game about running a gladiator school. You have 60 days to make it the best school in Rome, with a pile of debts and a senator who wants his money. Here's how it goes.</p>
+          <p data-bt>New men go on sale every morning, from cheap condemned criminals to veterans. Each one is his own man: one never gets tired, another runs when he's hurt, a third lives for the crowd.</p>
+          <img class="frame" src="art/devlog/ludus-market.png" width="409" height="216" style="height:216px;object-position:0 50%" loading="lazy" alt="The slave market: Malchus, a sickly recruit from Syria, for 60 coins, and Seuthes, a tireless one from Thrace, for 90">
+          <p data-bt>There's one fight a day, rated from one star to five. As your trainer Castor likes to say: "Five stars is how men end up carved on the wall." Pick who fights and send them into the arena. They fight on their own, guided by the style, training and gear you gave them. If you can't help yourself, take control of one of your men, and hand him back whenever you like.</p>
+          <img class="frame photo" src="art/devlog/ludus-pugna.gif" width="640" height="360" loading="lazy" alt="Fights in the arena: PUGNA!, a beast hunt with wolves and a boar, a parry, and a gladiator going berserk">
+          <p data-bt>Win, and your beaten opponent kneels. Spare him or finish him, while the crowd shouts its opinion. Give them what they want, and they'll love you for it. When it's your man on his knees, it's out of your hands.</p>
+          <img class="frame photo" src="art/devlog/ludus-judgement.gif" width="800" height="450" loading="lazy" alt="Judgement: Hadad kneels in the sand, the crowd cries IUGULA, and IUGULA it is">
+          <p data-bt>In between fights, train your men, feed them, and keep enough silver for the senator's collector. Those who die get their name carved into the wall, with an epitaph to match the life they lived.</p>
+          <img class="frame photo" src="art/devlog/ludus-wall.png" width="1920" height="1080" loading="lazy" alt="The wall of the dead: Retogenes, level 3 murmillo of Nubia, 0 wins, 1 loss. Never won a bout. Admirably consistent.">
+          <p data-bt>Those who survive might just reach the Grand Games in Rome on day 60, where Flamma the Unbroken awaits.</p>
+          <p data-bt>Wishlist and follow Gladiatoria so Steam will let you know when the demo is out!</p>
+          <img class="frame px2" src="art/devlog/ludus-wishlist.gif" width="308" height="192" loading="lazy" alt="Gladiators training in the ludus: We who are about to die... ask you to wishlist us!">
+          <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/4506820/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
+          <p data-bt>See you then!<br>Odd from Odd Pixel Labs</p>
+          <p data-bt class="dim">Want news by email? Or come say hi on our forum.</p>
+          <div class="row">
+            <button class="pbtn o" data-win="mail"><span data-bt="fit"><b>Sign up for news</b></span></button>
+            <a class="pbtn o" href="https://forum.oddpixellabs.com/c/gladiatoria?utm_source=oddos&amp;utm_content=intro-devlog" target="_blank" rel="noopener"><span data-bt="fit"><b>Go to the forum</b></span></a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -244,8 +276,8 @@
 
   <div class="menu" id="menu">
     <div class="head"><canvas class="emb" aria-hidden="true"></canvas><span data-bt="fit"><b>Odd Pixel Labs</b></span></div>
-    <button data-win="ddb"><img src="art/icons16/ddb.png" alt=""><span data-bt="fit">Dice Dice Battles</span></button>
     <button data-win="gladiatoria"><img src="art/icons16/helmet.png" alt=""><span data-bt="fit">Gladiatoria</span></button>
+    <button data-win="ddb"><img src="art/icons16/ddb.png" alt=""><span data-bt="fit">Dice Dice Battles</span></button>
     <button data-win="devlog"><img src="art/icons16/notebook.png" alt=""><span data-bt="fit">Devlog</span></button>
     <button data-win="about"><img src="art/icons16/floppy.png" alt=""><span data-bt="fit">About</span></button>
     <button data-win="forum"><img src="art/icons16/forum.png" alt=""><span data-bt="fit">Forum</span></button>
@@ -334,9 +366,9 @@
     <button class="pbtn o rmenubtn" aria-expanded="false" aria-controls="rmenu"><span data-bt="fit"><b>Menu</b></span></button>
   </div>
   <nav class="rmenu" id="rmenu" aria-label="Sections">
+    <button data-win="gladiatoria"><img src="art/icons16/helmet.png" alt=""><span data-bt="fit">Gladiatoria</span></button>
     <button data-win="ddb"><img src="art/icons16/ddb.png" alt=""><span data-bt="fit">Dice Dice Battles</span></button>
     <button data-win="shots"><img src="art/icons16/die.png" alt=""><span data-bt="fit">Screenshots</span></button>
-    <button data-win="gladiatoria"><img src="art/icons16/helmet.png" alt=""><span data-bt="fit">Gladiatoria</span></button>
     <button data-win="videos"><img src="art/icons16/tv.png" alt=""><span data-bt="fit">Videos</span></button>
     <button data-win="mail"><img src="art/icons16/envelope.png" alt=""><span data-bt="fit">Mail &amp; newsletter</span></button>
     <button data-win="forum"><img src="art/icons16/forum.png" alt=""><span data-bt="fit">Forum</span></button>

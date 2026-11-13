@@ -27,9 +27,9 @@ a { color: inherit; text-decoration: none; }
 .corner { position: absolute; z-index: 901; pointer-events: none; }
 
 /* desktop icons */
-.icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
-/* the game's full name takes two lines (so both game windows fit beside the icons on a 640-wide desktop): the first row is
-   12px taller for it */
+.icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 48px 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
+/* Dice Dice Battles' full name takes two lines (so both game windows fit beside the icons on a 640-wide desktop): its row,
+   the second (Gladiatoria comes first), is 12px taller for it */
 .ico[data-win="ddb"] { height: 60px; }
 .ico { width: 62px; height: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 2px; touch-action: manipulation; }
 .ico img { width: 32px; height: 32px; }
@@ -263,6 +263,17 @@ html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even
 .postnav { margin-top: 10px !important; padding-top: 6px; border-top: 1px solid var(--line2); justify-content: space-between; }
 #os.plain .postnav { display: none; }
 #w-post img.frame { max-width: calc(100% - 2px); }
+/* a post opens with its title (the window's title bar says it too, but reading mode shows every post under one Devlog
+   bar). Its pictures sit in the middle: pixel art at native size (.px2 at 2x where that fits, 1x on phones), and photos
+   (captures that aren't on a whole-pixel grid) as wide as the window, scaled smoothly like the screenshots; os.js keeps
+   their height a whole number of pixels */
+.posts .posthead { margin-top: 0 !important; }
+.posts { container-type: inline-size; }
+.posts img.frame { margin-left: auto; margin-right: auto; }
+#os .posts img.photo { width: calc(100% - 2px); max-width: none; image-rendering: auto; }
+#os.plain .posts img.frame.photo, #os.plain .posts img.frame.px2 { object-fit: fill; }   /* scaled, not cropped like other wide art */
+@container (max-width: 311px) { .posts img.px2 { width: auto; height: auto; } }
+#os:not(.noposts) .devlog-empty { display: none; }
 .oddhead { justify-content: space-between; align-items: center; }
 .oddmute { width: 13px; height: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line2); background: var(--night); flex: none; }
 .oddmute:hover { border-color: var(--paper); }

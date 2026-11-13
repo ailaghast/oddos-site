@@ -362,8 +362,14 @@
     const nav = document.createElement('div'); nav.className = 'row postnav';
     if (posts[i + 1]) nav.insertAdjacentHTML('beforeend', `<button class="pbtn o" data-go="${posts[i + 1].dataset.post}"><span data-bt="fit"><b>◂ Older</b></span></button>`);
     if (posts[i - 1]) nav.insertAdjacentHTML('beforeend', `<button class="pbtn o" data-go="${posts[i - 1].dataset.post}"><span data-bt="fit"><b>Newer ▸</b></span></button>`);
-    p.appendChild(nav);
+    if (nav.children.length) p.appendChild(nav);   // a lone post has nowhere to go
   });
+  // a post's photos are as wide as the window; their height is rounded to whole pixels, so what follows stays on the
+  // grid (they're measured whenever they show or the window's width changes)
+  const photos = new ResizeObserver(es => es.forEach(({ target: i }) => {
+    if (i.clientWidth) i.style.height = Math.round(i.clientWidth * i.getAttribute('height') / i.getAttribute('width')) + 'px';
+  }));
+  $$('#w-post img.photo').forEach(i => photos.observe(i));
   os.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) $(`#w-devlog [data-post="${g.dataset.go}"]`).click(); });
   $$('[data-post]', $('#w-devlog')).forEach(a => a.onclick = e => {
     e.preventDefault();
@@ -423,16 +429,17 @@
   // too small for the desktop: reading mode, always. A touch screen: a phone either way up, or a tablet standing up. With
   // a mouse, only a really small window: a tall, narrow browser window on a computer still gets the desktop
   function small() { return innerWidth < 700 || innerHeight < 520 || (touch && innerWidth < 1000 && innerHeight > innerWidth); }
-  // what's open on arrival: the two games side by side right of the icons, then the TV with the Welcome note under it at
-  // the right edge, as many as fit without covering each other. The rest start minimised in the taskbar, one click away.
-  // A 640-wide desktop (1080p, 1440p and 4K at the medium pixel size) fits both games; wider ones fit everything;
-  // narrower ones (a MacBook at medium) keep Gladiatoria with the TV, and Dice Dice Battles waits in the taskbar.
+  // what's open on arrival: the two games side by side right of the icons (Gladiatoria, the main game, first), then the TV
+  // with the Welcome note under it at the right edge, as many as fit without covering each other. The rest start minimised
+  // in the taskbar, one click away. A 640-wide desktop (1080p, 1440p and 4K at the medium pixel size) fits both games;
+  // wider ones fit everything; narrower ones (a MacBook at medium) keep Gladiatoria with the TV, and Dice Dice Battles
+  // waits in the taskbar.
   function firstLook() {
     const o = os.getBoundingClientRect(), left = Math.ceil(Math.max(...$$('.ico').map(i => (i.getBoundingClientRect().right - o.left) / Z))) + 2;
     const wd = n => +wins[n].dataset.at.split(',')[2], gap = 2, right = AW - 4, side = Math.max(wd('tv'), wd('welcome'));
-    const games = left + wd('ddb') + gap + wd('gladiatoria'), next = left + wd('ddb') + gap;
-    const plan = games + gap + side <= right ? { ddb: left, gladiatoria: next, tv: true, welcome: true }
-      : games <= right ? { ddb: left, gladiatoria: next }
+    const games = left + wd('gladiatoria') + gap + wd('ddb'), next = left + wd('gladiatoria') + gap;
+    const plan = games + gap + side <= right ? { gladiatoria: left, ddb: next, tv: true, welcome: true }
+      : games <= right ? { gladiatoria: left, ddb: next }
       : left + wd('gladiatoria') + gap + side <= right ? { gladiatoria: left, tv: true, welcome: true }
       : { gladiatoria: left };
     ['welcome', 'ddb', 'gladiatoria', 'tv'].forEach(n => { open(n); if (typeof plan[n] === 'number') place(wins[n], plan[n], wins[n].offsetTop); });
@@ -441,7 +448,7 @@
     if (plan.welcome && wins.welcome.offsetTop < tvEnd) { place(wins.welcome, wins.welcome.offsetLeft, tvEnd); if (tvEnd + wins.welcome.offsetHeight > AH - TASK) plan.welcome = false; }
     wins.welcome.style.maxHeight = (AH - TASK - 2 - wins.welcome.offsetTop) + 'px';
     Object.keys(wins).forEach(n => { if (wins[n].dataset.tab && !plan[n]) wins[n].classList.remove('open'); });
-    front(plan.gladiatoria !== undefined ? 'gladiatoria' : 'ddb');
+    front('gladiatoria');
   }
   // reading mode's layout: edge to edge below 300 art pixels; the strip, the TV keys and the sky fit the width
   function readMode(fresh) {
