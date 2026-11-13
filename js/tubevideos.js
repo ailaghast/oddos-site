@@ -20,7 +20,7 @@ window.ODDTUBE = [
   // the real trailer: 1080p, but the camera zoom isn't a whole number, so no exact scale (native: 0)
   { id: 'gladiatoria', title: 'Gladiatoria - Official Trailer', file: 'gladiatoria-trailer', ext: 'mp4', native: 0, thumb: 'gladiatoria', len: '1:25', views: '79', rating: 5,
     added: 'October 30, 2026', wishlist: true, steam: STEAM_GLADIATORIA,
-    desc: 'Your father is dead. His gladiator school is yours, and so are his debts. Buy, train and arm a stable of fighters, and lead them through brutal real-time arena battles. You have 60 days to reach Rome\'s Grand Games. Fail, and a senator takes everything.',
+    desc: 'Your father is dead. His debts are not. They\'re yours now, along with his gladiator school. Buy, train and arm your fighters, and send them into brutal real-time arena battles. You have 60 days to reach Rome\'s Grand Games. Fail, and a senator takes everything.',
     comment: ['2 hours ago', 'Thumbs up or thumbs down?'] },
   { id: 'sixtydays', title: 'Gladiatoria - 60 days in 20 seconds', file: 'gladiatoria-60days', thumb: 'gladiatoria-60days', len: '0:20', views: '603', rating: 5,
     added: 'October 30, 2026', wishlist: true, steam: STEAM_GLADIATORIA, desc: 'One lanista, one school, one senator who wants his money. Sixty days, abridged.',
