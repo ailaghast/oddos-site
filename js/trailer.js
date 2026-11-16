@@ -55,9 +55,12 @@
     // multiple of that width shows every game pixel as a solid block, even below the file's size (a 4x trailer at 2x
     // or 3x per game pixel). Without it, whole multiples of the file's own size. null = no exact size fits.
     // A video can set its own (native: 0 for footage whose pixels aren't a whole multiple, like a 1080p trailer with a camera zoom).
-    let native = +v.dataset.native || 0;
+    // smooth: no exact sizes at all, always fill smoothly (hi-res art in a small file, which a whole multiple would leave
+    // pillarboxed: Dice Dice Battles' new art in a 960-wide video)
+    let native = +v.dataset.native || 0, smooth = false;
     const nativeOf = c => c.native ?? (+v.dataset.native || 0);
     function exactWidth(devW, devH, vw, vh) {
+      if (smooth) return null;
       const base = native || vw, m = Math.floor(Math.min(devW / base, devH / (base * vh / vw)));
       return m >= 1 ? base * m : null;
     }
@@ -76,7 +79,7 @@
         // the embedded player: a black box as wide as the main column; the video inside at an exact size, centred
         // (pillarboxed, like the old players), or filling the box smoothly if no exact size fits
         // best of all: one game pixel = one OddOS pixel (the video exactly `native` art pixels wide), no mixed pixel sizes
-        const bw = player.clientWidth, bh = Math.round(bw * 9 / 16), same = native && bw >= native;
+        const bw = player.clientWidth, bh = Math.round(bw * 9 / 16), same = !smooth && native && bw >= native;
         // narrower than the game (phones): game pixels can't match OddOS pixels there, so fill the player smoothly
         const ex = same ? native * Z * dpr : native ? null : exactWidth(bw * Z * dpr, bh * Z * dpr, vw, vh);
         const w = ex ? ex / dpr / Z : bw, h = Math.round(w * vh / vw);
@@ -136,7 +139,7 @@
     function show(id, autoplay) {
       current = VIDEOS.find(x => x.id === id) || VIDEOS[0];
       const c = current, q = s => el.querySelector(s), steam = c.steam || STEAM_DDB;
-      native = nativeOf(c);
+      native = nativeOf(c); smooth = !!c.smooth;
       v.pause(); v.src = `trailer/${c.file}.${c.ext || 'webm'}`; v.poster = `trailer/${c.file}-poster.png`; v.load();
       endCard.hidden = true; el.classList.remove('ended');
       q('.ttitle').innerHTML = `<h1 data-bt><b>${esc(c.title)}</b></h1>`;

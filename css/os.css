@@ -10,6 +10,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; background: var(--night); overflow: hidden; }
 img, canvas { display: block; image-rendering: pixelated; }
+img.smooth { image-rendering: auto; }   /* art that isn't pixel art (Dice Dice Battles since Nov 16 2026): scaled smoothly; os.js keeps its height a whole number of pixels */
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
 a { color: inherit; text-decoration: none; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -209,6 +210,7 @@ html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even
 
 /* narrow screens crop wide pixel art instead of scaling it */
 #os.plain .bd img.frame { max-width: calc(100% - 2px); height: auto; object-fit: none; object-position: 30% 50%; }
+#os.plain .bd img.frame.smooth { object-fit: fill; }   /* art that isn't pixel art is scaled, never cropped */
 #os.plain .bd img.frame:not(.px2)[height="108"] { height: 108px; }   /* not px2: those go to 1x instead (posts) */
 #os.plain .bd img.frame:not(.px2)[height="120"] { height: 120px; }
 
@@ -247,12 +249,14 @@ html.reading { overflow-y: scroll; }   /* a computer's scrollbar stays put (even
 
 /* the game's long description: subheadings get extra room, pictures sit in the middle. Phones leave out the wide
    header capsule (the game's window shows the tall library capsule there), so neither is cropped. The animations (.anim) have see-through
-   backgrounds, so they go without a frame, as on the Steam page. They show at 2x (their width/height) where that
-   fits, and at their native 1x (narrower than 392) on phones */
+   backgrounds, so they go without a frame, as on the Steam page. Pixel-art ones show at 2x (their width/height) where
+   that fits, and at their native 1x (narrower than 392) on phones; smooth ones (.smooth) at their width/height, or as
+   wide as the window where that's narrower */
 .gameinfo { container-type: inline-size; }
 .gameinfo h3 { margin-top: 10px !important; }
 .gameinfo img.frame, .gameinfo img.anim { display: block; margin-left: auto; margin-right: auto; }
-@container (max-width: 391px) { .gameinfo img.anim { width: auto; height: auto; } }
+.gameinfo img.anim.smooth { max-width: 100%; }
+@container (max-width: 391px) { .gameinfo img.anim:not(.smooth) { width: auto; height: auto; } }
 
 /* long posts: subheadings, lists, pictures, and the older/newer links */
 .posts h3 { margin-top: 10px !important; }
