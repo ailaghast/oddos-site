@@ -40,14 +40,15 @@
   };
 
   // ---------- channels, drawn into the 128x96 screen ----------
-  // live cuts: spots from four fights (Fortuna, the Pit Boss, the Fates, the Fool's encore)
-  const CUTS = [['shot-01_fortuna.png', 350, 48], ['shot-02_pitboss.png', 305, 54], ['shot-03_fates.png', 300, 50], ['shot-04_abbot.png', 60, 50]];
+  // live cuts: spots from four fights (Fortuna, the Pit Boss, the Fates, the Fool's encore), 128x96 crops of the screenshots
+  // reduced to the TV's resolution (the game isn't pixel art since Nov 16 2026; _tools/build-ddb-art.js)
+  const CUTS = ['live-fortuna', 'live-pitboss', 'live-fates', 'live-encore'].map(n => `game/${n}.png`);
   // and Gladiatoria's: 128x96 native crops (_tools/build-gladiatoria-art.js): a beast hunt, the ludus, a judgement
   const GCUTS = ['live-wolves', 'live-boar', 'live-ludus', 'live-judgement'].map(n => `gladiatoria/${n}.png`);
   const CH = [
     { name: 'Odd Pixel Labs', imgs: ['tv-avatar.png'], draw(ctx, t, I) { ctx.drawImage(I['tv-avatar.png'], 0, 0); } },
     { name: 'Dice Dice Battles, on Steam', imgs: ['hero.png'], draw(ctx, t, I, st) {
-      ctx.drawImage(I['hero.png'], 70, 59, SW, SH, 0, 0, SW, SH);   // the four champions and the first die
+      ctx.drawImage(I['hero.png'], 70, 59, SW, SH, 0, 0, SW, SH);   // the four champions and the first die (the key art reduced to 480x155)
       // ON STEAM blinks from the start (the channel number draws on top while it shows)
       if (Math.floor(t / 650) % 2 === 0) { const w = tw('ON STEAM', true); px(ctx, 5, 5, TOMATO, w + 6, 11); text(ctx, 'ON STEAM', 8, 7, NIGHT, { bold: true }); }
     } },
@@ -57,10 +58,10 @@
       ctx.drawImage(I['gladiatoria/hero.png'], x, 148, SW, SH, 0, 0, SW, SH);
       if (Math.floor(t / 650) % 2 === 0) { const w = tw('ON STEAM', true); px(ctx, 5, 5, TOMATO, w + 6, 11); text(ctx, 'ON STEAM', 8, 7, NIGHT, { bold: true }); }
     } },
-    { name: 'LIVE: Dice Dice Battles', imgs: [...new Set(CUTS.map(c => c[0]))], draw(ctx, t, I) {
-      const k = Math.floor(t / 2400) % CUTS.length, [img, x, y] = CUTS[k];
+    { name: 'LIVE: Dice Dice Battles', imgs: CUTS, draw(ctx, t, I) {
+      const k = Math.floor(t / 2400) % CUTS.length;
       if (t % 2400 < 70) { noise(ctx); return; }   // a quick cut
-      ctx.drawImage(I[img], x, y, SW, SH, 0, 0, SW, SH);
+      ctx.drawImage(I[CUTS[k]], 0, 0);
       const w = tw('LIVE', true); px(ctx, 5, SH - 16, TOMATO, w + 12, 11); text(ctx, 'LIVE', 14, SH - 14, NIGHT, { bold: true });
       if (Math.floor(t / 500) % 2 === 0) px(ctx, 8, SH - 12, NIGHT, 3, 3);   // the blinking dot
     } },

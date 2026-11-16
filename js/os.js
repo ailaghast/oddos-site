@@ -252,9 +252,10 @@
   // ---------- screenshots: full screen, the original 1920x1080 files ----------
   // Both games draw their text on a finer grid than their art, so the shots are shown from the originals, not reduced.
   // Sized in real screen pixels: a whole multiple when the screen is big enough (1:1 on a 1080p screen), otherwise
-  // scaled down smoothly to fit, like a photo. Each game's Screenshots button names its set (data-game).
+  // scaled down smoothly to fit, like a photo. Each game's Screenshots button names its set (data-game). ext: the files'
+  // type (png if left out); smooth: not pixel art (Dice Dice Battles since Nov 16 2026), so never scaled up blocky.
   const GAMES = {
-    ddb: { name: 'Dice Dice Battles', dir: 'shots-ddb', shots: [['01_fortuna', 'Fortuna'], ['02_pitboss', 'The Pit Boss'], ['03_fates', 'The Fates'], ['04_abbot', 'The Abbot'], ['05_shop', 'The shop'], ['06_stamp', 'Stamping a die'], ['07_notch', 'Notching a face'], ['08_rivals', 'Rivals'], ['09_champion', 'Champions'], ['10_compendium', 'The Compendium']] },
+    ddb: { name: 'Dice Dice Battles', dir: 'shots-ddb-v8', ext: 'webp', smooth: true, shots: [['01_fortuna', 'Fortuna'], ['02_pitboss', 'The Pit Boss'], ['03_fates', 'The Fates'], ['04_abbot', 'The Abbot'], ['05_shop', 'The shop'], ['06_stamp', 'Stamping a die'], ['07_notch', 'Notching a face'], ['08_rivals', 'Rivals'], ['09_champion', 'Champions'], ['10_compendium', 'The Compendium']] },
     gladiatoria: { name: 'Gladiatoria', dir: 'shots-gladiatoria', shots: [['01_judgement', 'Judgement'], ['02_wolves', 'A beast hunt'], ['03_parry', 'Parry'], ['04_champion', 'Champion'], ['05_critical', 'Critical'], ['06_ludus', 'The ludus'], ['07_market', 'The market'], ['08_gladiators', 'Your gladiators'], ['09_games', 'The games'], ['10_victoria', 'Victoria']] },
   };
   const lb = $('.lightbox'), lbimg = $('.lbimg');
@@ -262,11 +263,11 @@
   function fitShot() {
     const dpr = devicePixelRatio || 1, dw = AW * Z * dpr, dh = AH * Z * dpr, s = Math.min(dw / 1920, dh / 1080), k = s >= 1 ? Math.floor(s) : s;
     const w = 1920 * k / dpr / Z, h = 1080 * k / dpr / Z;   // in art pixels (may be fractional; it's a photo)
-    Object.assign(lbimg.style, { width: w + 'px', height: h + 'px', left: (AW - w) / 2 + 'px', top: (AH - h) / 2 + 'px', imageRendering: k >= 1 ? 'pixelated' : 'auto' });
+    Object.assign(lbimg.style, { width: w + 'px', height: h + 'px', left: (AW - w) / 2 + 'px', top: (AH - h) / 2 + 'px', imageRendering: k >= 1 && !shotSet.smooth ? 'pixelated' : 'auto' });
   }
   function showShot(d) {
     shotI = (shotI + d + SHOTS.length) % SHOTS.length;
-    lbimg.src = `assets/${shotSet.dir}/${SHOTS[shotI][0]}.png`; lbimg.alt = shotSet.name + ': ' + SHOTS[shotI][1];
+    lbimg.src = `assets/${shotSet.dir}/${SHOTS[shotI][0]}.${shotSet.ext || 'png'}`; lbimg.alt = shotSet.name + ': ' + SHOTS[shotI][1];
     const label = $('.shotname'); label.innerHTML = ''; label._bt = false; label.textContent = `${shotI + 1}/${SHOTS.length} · ${SHOTS[shotI][1]}`; BT.attach(label);
   }
   // at: start on that shot (reading mode's strip); otherwise the viewer opens where it was left
@@ -293,7 +294,7 @@
   // full-screen viewer
   const strips = $$('.strip').map(strip => {
     const set = GAMES[strip.dataset.game], box = strip.parentElement, name = $('.stripname', box);
-    strip.innerHTML = set.shots.map(([f, t], i) => `<button class="shot" data-i="${i}" aria-label="${set.name}: ${t}, full screen"><img src="assets/${set.dir}/${f}.png" loading="lazy" alt=""></button>`).join('');
+    strip.innerHTML = set.shots.map(([f, t], i) => `<button class="shot" data-i="${i}" aria-label="${set.name}: ${t}, full screen"><img src="assets/${set.dir}/${f}.${set.ext || 'png'}" loading="lazy" alt=""></button>`).join('');
     const at = () => Math.round(strip.scrollLeft / (strip.clientWidth || 1)), label = () => retext(name, `${at() + 1}/${set.shots.length} · ${set.shots[at()][1]}`);
     let raf = 0; strip.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(label); });
     $$('[data-strip]', box).forEach(b => b.onclick = () => strip.scrollTo({ left: (at() + +b.dataset.strip + set.shots.length) % set.shots.length * strip.clientWidth, behavior: smooth() }));
@@ -365,11 +366,12 @@
     if (nav.children.length) p.appendChild(nav);   // a lone post has nowhere to go
   });
   // a post's photos are as wide as the window; their height is rounded to whole pixels, so what follows stays on the
-  // grid (they're measured whenever they show or the window's width changes)
+  // grid (they're measured whenever they show or the window's width changes). The same for other smooth art (class
+  // smooth: Dice Dice Battles' capsules and animations), which narrow windows scale down
   const photos = new ResizeObserver(es => es.forEach(({ target: i }) => {
     if (i.clientWidth) i.style.height = Math.round(i.clientWidth * i.getAttribute('height') / i.getAttribute('width')) + 'px';
   }));
-  $$('#w-post img.photo').forEach(i => photos.observe(i));
+  $$('#w-post img.photo, img.smooth').forEach(i => photos.observe(i));
   os.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) $(`#w-devlog [data-post="${g.dataset.go}"]`).click(); });
   $$('[data-post]', $('#w-devlog')).forEach(a => a.onclick = e => {
     e.preventDefault();

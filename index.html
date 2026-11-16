@@ -98,8 +98,8 @@
     <!-- Dice Dice Battles: the same three windows as Gladiatoria -->
     <section class="win" id="w-ddb" data-icon="ddb" data-title="DiceDiceBattles.exe" data-at="184,8,250">
       <div class="bd">
-        <img class="frame cap-small" src="art/capsule-small.png" width="231" height="87" alt="Dice Dice Battles">
-        <img class="frame cap-tall" src="art/capsule-library.png" width="200" height="300" style="height:300px" loading="lazy" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
+        <img class="frame cap-small smooth" src="art/capsule-small.webp" width="231" height="87" alt="Dice Dice Battles">
+        <img class="frame cap-tall smooth" src="art/capsule-library.webp" width="200" height="300" style="height:300px" loading="lazy" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
         <p data-bt>Buy strange dice, line them up, and watch them play off each other. Move one die and the whole line changes. A roguelike dice battler about finding absurd combos, then testing them against a cursed dungeon or other players in async PvP. Coming to PC in 2027.</p>
         <div class="row">
           <a class="pbtn" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a>
@@ -111,19 +111,20 @@
     </section>
 
     <!-- the long description (same copy as the Steam page). On top, the Steam header capsule (left out on phones, where the
-         game's window already shows the library capsule); the animations are the Steam page's earlier GIFs (native files
-         from _tools/build-game-art.js; its Nov 13 description uses newer ones, Steam/v6), shown at 2x where they fit.
-         Text updated to the Nov 13 Steam copy. Reading mode folds it after .fold -->
+         game's window already shows the library capsule). Since Nov 16 2026 the game's art isn't pixel art: the capsules and
+         the animations (Steam/v8 (new artstyle), as WebP from _tools/build-ddb-art.js) are class smooth, shown at half their
+         size where they fit and as wide as the window on phones. Text updated to the Nov 13 Steam copy. Reading mode folds
+         it after .fold -->
     <section class="win" id="w-ddbinfo" data-icon="ddb" data-title="About Dice Dice Battles" data-at="150,4,476">
       <div class="bd gameinfo">
-        <img class="frame cap-wide" src="art/capsule-header.png" width="460" height="215" style="height:215px" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
-        <img class="anim" src="art/game/dice-spin.gif" width="388" height="84" alt="Six dice from different families, spinning">
+        <img class="frame cap-wide smooth" src="art/capsule-header.webp" width="460" height="215" style="height:215px" loading="lazy" alt="Dice Dice Battles: four champions, flying dice and Fortuna, the goddess of luck">
+        <img class="anim smooth" src="art/game/dice-spin.webp" width="390" height="91" loading="lazy" alt="Five dice from different families, spinning">
         <p data-bt>Dice Dice Battles is a roguelike about lining up dice into ridiculous combos. The goddess Fortuna swallowed all the world's luck, then shattered. Pick your champion, plan your lineup at your own pace, and descend into her cursed dungeon to bring luck back to the world!</p>
         <p data-bt>Your dice roll from left to right, activating one after another to attack enemies and defend you. Some dice power up their neighbors, some repeat them, and some copy them. Put the right dice side by side and a single roll snowballs into huge numbers.</p>
-        <img class="anim fold" src="art/game/dice-roll.gif" width="390" height="140" alt="A line of six dice hopping one after another, left to right">
+        <img class="anim smooth fold" src="art/game/dice-roll.webp" width="390" height="133" loading="lazy" alt="A line of dice hopping one after another, left to right">
         <p data-bt>Between battles, buy new dice, charms, and upgrades. Merge matching dice into stronger versions and group dice families for bonuses. Then get your hands dirty: stamp your dice with new traits, switch their family, or notch and enchant their faces.</p>
         <p data-bt>But the dungeon doesn't play fair. Its monsters curse your dice, jam them, and swallow them whole. Fight through 3 acts to face Fortuna, the Broken, and return luck to the world. Good luck!</p>
-        <img class="anim" src="art/game/chips-walk.gif" width="390" height="100" alt="Two poker-chip monsters walking past: a knight with a chip shield and a stack of chips with teeth">
+        <img class="anim smooth" src="art/game/chips-walk.webp" width="390" height="100" loading="lazy" alt="Two poker-chip monsters walking past: a knight with a chip shield and a stack of chips with teeth">
         <h3 data-bt><b>Survive the campaign</b></h3>
         <p data-bt>Every win earns a trophy; every loss costs a life. Collect 15 trophies before your 5 lives run out. Each shop visit is a chance to turn things around.</p>
         <h3 data-bt><b>Rebuild the goddess</b></h3>
@@ -132,7 +133,7 @@
         <p data-bt>Try a shared Daily Run, take a winning build into Endless to see how deep it can go, or unlock tougher runs with 10 Heresy difficulty levels.</p>
         <h3 data-bt><b>Duel other players in async PvP</b></h3>
         <p data-bt>In Rivals, you face other players' lineups from the same round, their best ideas against yours. Beat them and take the crown!</p>
-        <img class="anim" src="art/game/shopkeeper.gif" width="260" height="120" alt="The shopkeeper, a mouse with a backpack: Psst, friend! Wishlist me now.">
+        <img class="anim smooth" src="art/game/shopkeeper.webp" width="260" height="120" loading="lazy" alt="The shopkeeper, a mouse in a green hood with a big backpack: Psst, friend! Wishlist me.">
         <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/5427200/Dice_Dice_Battles" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
       </div>
     </section>
@@ -208,36 +209,39 @@
     <!-- the devlog reader: every post is an <article data-post="id"> in .posts (and a matching <li> in the Devlog list);
          the window shows one at a time, reading mode shows them all. Long posts can use <h3>, <img class="frame">, <ul class="list">.
          Pictures (art/devlog/, made by _tools/build-devlog-art.js): pixel art at native size (class px2: shown at 2x where
-         it fits, 1x on phones; add class wide when 2x is 400 wide), or class photo for captures that aren't on a whole-pixel grid (scaled smoothly to the
-         window's width). Posts copied from Steam keep the Steam text; links go in buttons, since text is drawn. -->
+         it fits, 1x on phones; add class wide when 2x is 400 wide), or class photo for anything that isn't on a whole-pixel grid
+         (captures, and all of Dice Dice Battles' art since its new style): scaled smoothly to the window's width, or to an
+         inline max-width. Posts copied from Steam keep the Steam text; links go in buttons, since text is drawn. -->
     <section class="win" id="w-post" data-icon="notebook" data-title="Devlog" data-at="150,4,476">
       <div class="bd posts">
-        <!-- Dice Dice Battles' first Steam post: store.steampowered.com/news/app/5427200/view/667256037088166705 -->
+        <!-- Dice Dice Battles' first Steam post: store.steampowered.com/news/app/5427200/view/667256037088166705. Its pictures
+             are in the game's new art style (Nov 16 2026: strips from Steam/devlog-champions/new-art, the animations shared with
+             About the game); the Steam post itself still has the pixel-art ones -->
         <article data-post="champions">
           <h3 data-bt class="posthead"><b>Meet the champions</b></h3>
           <p data-bt class="dim">Dice Dice Battles · Nov 13, 2026</p>
-          <img class="frame" src="art/devlog/champions-banner.gif" width="260" height="61" style="height:61px;object-position:50% 50%" loading="lazy" alt="Five dice tumbling in place: fire, shield, sword, heart and coin">
+          <img class="frame photo" src="art/game/dice-spin.webp" width="780" height="182" style="max-width:390px" loading="lazy" alt="Five dice spinning in place: fire, shield, sword, heart and coin">
           <p data-bt>Hi there! We're Odd Pixel Labs, and Dice Dice Battles is our chill roguelike about lining up strange dice that set each other off, until the numbers get a little ridiculous.</p>
           <p data-bt>Every run starts with just one die: your champion's. Everything else, you buy in the shop along the way. So the champion you pick helps you decide what to go shopping for. Here are the four.</p>
           <h3 data-bt><b>The Warden</b></h3>
           <p data-bt class="dim">Oathsworn of the Last Gate</p>
-          <img class="frame px2 wide" src="art/devlog/champions-warden.png" width="400" height="100" loading="lazy" alt="The Warden, in plumed armour behind a lion shield, strikes a skeleton, next to a pile of six Block shields">
+          <img class="frame photo" src="art/devlog/champions-warden.webp" width="800" height="200" loading="lazy" alt="The Warden, in plumed armour behind a shield with a tower on it, strikes a skeleton under a stained-glass window, next to a pile of six Block shields">
           <p data-bt>The tank. The Warden holds the line, and his Oath Die would rather defend than attack. So you build up a big wall of Block, then put a die with Bash right after it: Bash hits as hard as your Block is high. His dice also get stronger the longer a fight lasts, so there's no rush. The Warden has all day.</p>
           <h3 data-bt><b>The Cutpurse</b></h3>
           <p data-bt class="dim">Pickpocket of the Gods</p>
-          <img class="frame px2 wide" src="art/devlog/champions-cutpurse.png" width="400" height="100" loading="lazy" alt="The Cutpurse, in a green hood, throws a volley of knives over a table of coins at a snake made of gold coins">
+          <img class="frame photo" src="art/devlog/champions-cutpurse.webp" width="800" height="200" loading="lazy" alt="The Cutpurse, in a green hood, throws a volley of knives over a card table at a snake made of gold coins, and its coins fly back to him">
           <p data-bt>He steals for a living, and he fights the same way. His Knave Die pilfers coins mid-fight, and the more coins he pockets in a turn, the harder he mugs. Then there are the knives: line them up, and each one hits harder than the one before. So you buy more knives. Then a few more knives. Then a few more after that.</p>
           <h3 data-bt><b>The Witch</b></h3>
           <p data-bt class="dim">Keeper of the Last Spark</p>
-          <img class="frame px2 wide" src="art/devlog/champions-witch.png" width="400" height="100" loading="lazy" alt="The Witch, in a red hat, has set a slime, a skeleton and a rat on fire">
+          <img class="frame photo" src="art/devlog/champions-witch.webp" width="800" height="200" loading="lazy" alt="The Witch, in a red hat, has set a slime, a skeleton and a rat on fire">
           <p data-bt>For all you pyromaniacs out there. Set everything on fire, keep feeding the flames, then cash it all in with one big hit. When a burning enemy dies, the fire moves on to its friends. The Witch can't take much of a hit, so the plan is simple: leave nobody standing to deliver one.</p>
           <h3 data-bt><b>The Fool</b></h3>
           <p data-bt class="dim">Jester of the Lost Court</p>
-          <img class="frame px2 wide" src="art/devlog/champions-fool.png" width="400" height="100" loading="lazy" alt="The Fool, a jester in purple, sends an arc of dice at a poker-chip knight: x12">
+          <img class="frame photo" src="art/devlog/champions-fool.webp" width="800" height="200" loading="lazy" alt="The Fool, a jester in purple, sends an arc of dice at a poker-chip knight: x12">
           <p data-bt>Chaos incarnate, and the most fragile of the four. The Fool's dice copy each other, repeat each other, and like to pull every trick in the book. At the end of every turn, your highest-numbered die goes once more. Line it all up right, and a single die can fire twelve times in one turn.</p>
-          <img class="frame" src="art/devlog/champions-mastery.gif" width="259" height="88" style="height:88px;object-position:50% 50%" loading="lazy" alt="A row of five dice (fire, shield, sword, heart, coin), each jumping up and spinning in turn">
+          <img class="frame photo" src="art/game/dice-roll.webp" width="780" height="265" style="max-width:390px" loading="lazy" alt="A row of five dice (fire, shield, sword, heart, coin), each jumping up and spinning in turn">
           <p data-bt>You start with the Warden, and the others join you as you play. Stick with a favorite long enough and their dice start to dress the part: five mastery ranks per champion, each with its own die finish, from the Warden's humble Squire's Iron all the way up to Lionheart.</p>
-          <img class="frame px2" src="art/devlog/champions-wishlist.gif" width="260" height="120" loading="lazy" alt="A mouse in a green hood with a big backpack: Psst, friend! Wishlist me.">
+          <img class="frame photo" src="art/game/shopkeeper.webp" width="520" height="240" style="max-width:260px" loading="lazy" alt="The shopkeeper, a mouse in a green hood with a big backpack: Psst, friend! Wishlist me.">
           <p data-bt>Wishlist and follow Dice Dice Battles so Steam lets you know when the demo is out!</p>
           <div class="row"><a class="pbtn" href="https://store.steampowered.com/app/5427200/" target="_blank" rel="noopener"><span data-bt="fit"><b>Wishlist on Steam</b></span></a></div>
           <p data-bt>See you in the dungeon!<br>Odd from Odd Pixel Labs</p>

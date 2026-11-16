@@ -1,17 +1,18 @@
 // OddTube's videos. Files live in trailer/ (made by _tools/trailer/record.js; swap in real ones any time).
 // file: trailer/<file>.<ext> plus trailer/<file>-poster.png. ext: optional, webm if left out. thumb: art/tube/<thumb>.png (64x36, _tools/build-tube-thumbs.js). rating: 4 to 5, in halves. comment: optional, always
 // from oddpixellabs. wishlist: show the Steam button; steam: its link if it isn't Dice Dice Battles'. native: the game's
-// width in pixels for exact scaling (480 if left out; 0 = none). Keep sidebar titles to short words (the column is narrow).
+// width in pixels for exact scaling (480 if left out; 0 = none). smooth: never exact, always scaled smoothly to fill (Dice Dice
+// Battles' new hi-res art since Nov 16 2026). Keep sidebar titles to short words (the column is narrow).
 const STEAM_GLADIATORIA = 'https://store.steampowered.com/app/4506820/';
 window.ODDTUBE = [
   { id: 'trailer', title: 'Dice Dice Battles - Official Trailer', file: 'ddb-trailer', ext: 'mp4', thumb: 'trailer', len: '1:15', views: '1,337', rating: 4.5,
     added: 'October 24, 2026', wishlist: true,
     desc: "Buy strange dice, line them up, and watch them play off each other. Move one die and the whole line changes. A roguelike dice battler about finding absurd combos, then testing them against a cursed dungeon or other players in async PvP. Coming to PC in 2027.",
     comment: ['1 day ago', 'Thanks for watching!'] },
-  { id: 'reaction', title: 'FOOL REACTS to Rivals mode', file: 'reaction', thumb: 'reaction', len: '0:22', views: '4,096', rating: 4.5,
+  { id: 'reaction', title: 'FOOL REACTS to Rivals mode', file: 'reaction', smooth: true, thumb: 'reaction', len: '0:22', views: '4,096', rating: 4.5,
     added: 'October 29, 2026', wishlist: true, desc: 'The Fool has opinions about a Rivals run. Captions on, because the bells are loud.',
     comment: ['1 day ago', "He told us to pin this. OddTube doesn't have a pinning feature."] },
-  { id: 'heroes', title: 'Meet the four champions', file: 'heroes', thumb: 'heroes', len: '0:21', views: '911', rating: 5,
+  { id: 'heroes', title: 'Meet the four champions', file: 'heroes', smooth: true, thumb: 'heroes', len: '0:21', views: '911', rating: 5,
     added: 'October 18, 2026', wishlist: true, desc: 'The Warden, the Witch, the Cutpurse and the Fool, in the order they agreed on.',
     comment: ['1 week ago', 'The Fool insisted on going last.'] },
   { id: 'oddoneout', title: 'Odd one out - any% speedrun', file: 'oddoneout', thumb: 'oddoneout', len: '0:12', views: '17', rating: 4,
