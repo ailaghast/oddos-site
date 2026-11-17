@@ -1,0 +1,66 @@
+DICE DICE BATTLES: FACT SHEET
+
+Updated November 17, 2026
+
+FACTS
+
+Developer:  Odd Pixel Labs
+Publisher:  Odd Pixel Labs
+Release:    2027
+Demo:       Free, out now on Steam (Auto-Battler RPG Fest, November 16–23)
+Platform:   PC (Windows and Linux), on Steam; runs on Steam Deck
+Price:      To be announced
+Genre:      Roguelike dice battler
+Players:    Single-player, plus asynchronous online PvP (Rivals mode)
+Languages:  English, French, German, Spanish (Spain), Portuguese (Brazil), Russian, Japanese, Simplified Chinese
+Controls:   Mouse, keyboard or controller (full controller support)
+
+LINKS
+
+Steam:          https://store.steampowered.com/app/5427200/Dice_Dice_Battles
+Website:        https://oddpixellabs.com
+Forum:          https://forum.oddpixellabs.com
+Press contact:  oddpixellabs@gmail.com
+
+SHORT DESCRIPTION
+
+Buy dice, line them up, and watch them play. Move one die and the whole line changes. A roguelike dice battler about finding absurd combos, then testing them against a cursed dungeon or other players in async PvP.
+
+ABOUT THE GAME
+
+Dice Dice Battles is a roguelike about lining up dice into ridiculous combos. The goddess Fortuna swallowed all the world’s luck, then shattered. Pick your champion, plan your lineup at your own pace, and descend into her cursed dungeon to bring luck back to the world!
+
+Your dice roll from left to right, activating one after another to attack enemies and defend you. Some dice power up their neighbors, some repeat them, and some copy them. Put the right dice side by side and a single roll snowballs into huge numbers.
+
+Between battles, buy new dice, charms, and upgrades. Merge matching dice into stronger versions and group dice families for bonuses. Then get your hands dirty: stamp your dice with new traits, switch their family, or notch and enchant their faces.
+
+But the dungeon doesn’t play fair. Its monsters curse your dice, jam them, and swallow them whole. Fight through 3 acts to face Fortuna, the Broken, and return luck to the world. Good luck!
+
+- Survive the campaign: Every win earns a trophy; every loss costs a life. Collect 15 trophies before your 5 lives run out. Each shop visit is a chance to turn things around.
+- Rebuild the goddess: Every run earns shards that restore Fortuna at the Shrine, unlocking new champions, dice, charms, and cosmetic die finishes along the way.
+- Find your next challenge: Try a shared Daily Run, take a winning build into Endless to see how deep it can go, or unlock tougher runs with 10 Heresy difficulty levels.
+- Duel other players in async PvP: In Rivals, you face other players' lineups from the same round, their best ideas against yours. Beat them and take the crown!
+
+THE DEMO
+
+The free demo has every mode: the campaign, Rivals (async PvP), the Daily Run and Endless. Like the full game, it's playable in all eight languages.
+
+ABOUT ODD PIXEL LABS
+
+Odd Pixel Labs is an independent game studio in São Paulo, Brazil, making strategy games.
+
+USING THESE ASSETS
+
+You may use everything in this press kit, and footage you capture yourself, in articles, videos and streams about Dice Dice Battles, including monetized content. No permission needed.
+
+WHAT'S IN THE KIT
+
+Fact sheet/:   This text as .txt and .docx, and a one-page PDF.
+Key art/:      With and without the logo: wide, vertical and banner.
+Logos/:        The logo on a transparent background in three sizes, a 1920x1080 title card, and the game icon.
+Screenshots/:  9 screenshots, 1920x1080 PNG.
+GIFs/:         6 animations: spinning dice, a line of dice, chip monsters, the shopkeeper, a campfire and the Starbeast.
+Trailer/:      The trailer, 1080p, 1:15. It's also on the Steam page.
+Characters/:   The four champions, their portraits, Fortuna, the shopkeeper and some bosses, on transparent backgrounds.
+
+Odd Pixel Labs' logos are in the Odd Pixel Labs folder.
