@@ -28,10 +28,10 @@ a { color: inherit; text-decoration: none; }
 .corner { position: absolute; z-index: 901; pointer-events: none; }
 
 /* desktop icons */
-.icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 48px 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
-/* Dice Dice Battles' full name takes two lines (so both game windows fit beside the icons on a 640-wide desktop): its row,
-   the second (Sand and Glory comes first), is 12px taller for it */
-.ico[data-win="ddb"] { height: 60px; }
+.icons { position: absolute; left: 4px; top: 4px; bottom: 21px; display: grid; grid-auto-flow: column; grid-template-rows: 60px 60px repeat(auto-fill, 48px); grid-auto-columns: 62px; justify-items: center; gap: 2px 4px; z-index: 1; }
+/* both games' full names take two lines (so both game windows fit beside the icons on a 640-wide desktop): their rows,
+   the first two, are 12px taller for it */
+.ico[data-win="sandandglory"], .ico[data-win="ddb"] { height: 60px; }
 .ico { width: 62px; height: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 2px; touch-action: manipulation; }
 .ico img { width: 32px; height: 32px; }
 .ico [data-bt] { padding: 1px 2px 0; }

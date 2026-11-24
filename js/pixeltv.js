@@ -44,7 +44,7 @@
   // reduced to the TV's resolution (the game isn't pixel art since Nov 16 2026; _tools/build-ddb-art.js)
   const CUTS = ['live-fortuna', 'live-pitboss', 'live-fates', 'live-encore'].map(n => `game/${n}.png`);
   // and Sand and Glory's: 128x96 native crops (_tools/build-sand-and-glory-art.js): a beast hunt, the ludus, a judgement
-  const GCUTS = ['live-wolves', 'live-boar', 'live-ludus', 'live-judgement'].map(n => `sand-and-glory/${n}.png`);
+  const SCUTS = ['live-wolves', 'live-boar', 'live-ludus', 'live-judgement'].map(n => `sand-and-glory/${n}.png`);
   const CH = [
     { name: 'Odd Pixel Labs', imgs: ['tv-avatar.png'], draw(ctx, t, I) { ctx.drawImage(I['tv-avatar.png'], 0, 0); } },
     { name: 'Dice Dice Battles, on Steam', imgs: ['hero.png'], draw(ctx, t, I, st) {
@@ -65,10 +65,10 @@
       const w = tw('LIVE', true); px(ctx, 5, SH - 16, TOMATO, w + 12, 11); text(ctx, 'LIVE', 14, SH - 14, NIGHT, { bold: true });
       if (Math.floor(t / 500) % 2 === 0) px(ctx, 8, SH - 12, NIGHT, 3, 3);   // the blinking dot
     } },
-    { name: 'LIVE: Sand and Glory', imgs: GCUTS, draw(ctx, t, I) {
-      const k = Math.floor(t / 2400) % GCUTS.length;
+    { name: 'LIVE: Sand and Glory', imgs: SCUTS, draw(ctx, t, I) {
+      const k = Math.floor(t / 2400) % SCUTS.length;
       if (t % 2400 < 70) { noise(ctx); return; }
-      ctx.drawImage(I[GCUTS[k]], 0, 0);
+      ctx.drawImage(I[SCUTS[k]], 0, 0);
       const w = tw('LIVE', true); px(ctx, 5, SH - 16, TOMATO, w + 12, 11); text(ctx, 'LIVE', 14, SH - 14, NIGHT, { bold: true });
       if (Math.floor(t / 500) % 2 === 0) px(ctx, 8, SH - 12, NIGHT, 3, 3);
     } },

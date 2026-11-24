@@ -149,7 +149,7 @@
   menuBtn.onclick = () => menu(!bar.classList.contains('open'));
   addEventListener('pointerdown', e => { if (bar.classList.contains('open') && !e.target.closest('.rbar')) menu(false); }, true);   // a tap anywhere else closes it
   // the menu marks the window being read (the last one whose top has passed the bar)
-  const ALIAS = { ddbinfo: 'ddb', gladinfo: 'sandandglory', gshots: 'sandandglory', post: 'devlog' };
+  const ALIAS = { ddbinfo: 'ddb', sginfo: 'sandandglory', sgshots: 'sandandglory', post: 'devlog' };
   function here() {
     let cur = null; for (const [n, w] of Object.entries(wins)) if (w.offsetParent && w.getBoundingClientRect().top <= (BAR + 40) * Z) cur = ALIAS[n] || n;
     $$('[data-win]', bar).forEach(b => b.classList.toggle('here', b.dataset.win === cur));
